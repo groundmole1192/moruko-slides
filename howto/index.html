@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>morukoの使い方</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #111;
+  }
+
+  /* 各セクションが正確に16:9 */
+  .slide {
+    width: 100vw;
+    height: 56.25vw; /* 16:9 = 9/16 = 0.5625 */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4vw 6vw;
+  }
+
+  /* ===================== テーマカラー ===================== */
+  .slide-cover {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+  }
+  .slide-dark {
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    color: #fff;
+  }
+  .slide-orange {
+    background: linear-gradient(135deg, #f27c22 0%, #e8531d 100%);
+    color: #fff;
+  }
+  .slide-light {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #1a1a2e;
+  }
+  .slide-teal {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    color: #fff;
+  }
+
+  /* ===================== 装飾 ===================== */
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 50%;
+    height: 140%;
+    background: rgba(255,255,255,0.03);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .slide-number {
+    position: absolute;
+    top: 3%;
+    right: 4%;
+    font-size: 1.2vw;
+    opacity: 0.4;
+    letter-spacing: 0.2em;
+  }
+
+  .tag {
+    background: rgba(242,124,34,0.9);
+    color: #fff;
+    font-size: 1.1vw;
+    font-weight: 700;
+    padding: 0.4vw 1.2vw;
+    border-radius: 2vw;
+    margin-bottom: 2vw;
+    letter-spacing: 0.1em;
+  }
+  .slide-light .tag {
+    background: #f27c22;
+  }
+
+  h1.main-title {
+    font-size: 4.5vw;
+    font-weight: 900;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 2vw;
+  }
+
+  h2.slide-title {
+    font-size: 3.2vw;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 2.5vw;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 1.8vw;
+    opacity: 0.8;
+    text-align: center;
+    margin-bottom: 1vw;
+    font-weight: 300;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vw;
+    width: 100%;
+    margin-top: 1vw;
+  }
+  .content-grid.col2 { grid-template-columns: repeat(2, 1fr); }
+
+  .card {
+    background: rgba(255,255,255,0.08);
+    border-radius: 1vw;
+    padding: 2vw;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .slide-light .card {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .card-icon {
+    font-size: 2.5vw;
+    margin-bottom: 0.8vw;
+  }
+
+  .card h3 {
+    font-size: 1.4vw;
+    font-weight: 700;
+    margin-bottom: 0.6vw;
+  }
+
+  .card p {
+    font-size: 1.1vw;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  .bullet-list {
+    list-style: none;
+    width: 100%;
+    max-width: 70vw;
+    text-align: left;
+  }
+  .bullet-list li {
+    font-size: 1.6vw;
+    padding: 0.8vw 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+  }
+  .slide-light .bullet-list li { border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .bullet-list li::before {
+    content: '▶';
+    color: #f27c22;
+    font-size: 1vw;
+    flex-shrink: 0;
+  }
+
+  .highlight-box {
+    background: rgba(242,124,34,0.15);
+    border-left: 0.4vw solid #f27c22;
+    padding: 1.5vw 2vw;
+    border-radius: 0 1vw 1vw 0;
+    font-size: 1.6vw;
+    line-height: 1.7;
+    max-width: 75vw;
+    text-align: left;
+  }
+
+  .cta-btn {
+    background: #f27c22;
+    color: #fff;
+    font-size: 1.8vw;
+    font-weight: 700;
+    padding: 1.2vw 4vw;
+    border-radius: 3vw;
+    margin-top: 2vw;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 20px rgba(242,124,34,0.5);
+  }
+
+  .logo-area {
+    position: absolute;
+    bottom: 3%;
+    left: 4%;
+    font-size: 1.1vw;
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+  }
+
+  /* スクロールバー非表示（スクショ時） */
+  ::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+
+<!-- ===== SLIDE 1 ===== -->
+<section class="slide slide-cover" id="slide-1" data-slide="1">
+  <span class="slide-number">1 / 8</span>
+  <div class="logo-area">moruko — AI秘書</div>
+
+  <div class="tag">AI秘書</div>
+
+  
+    <h1 class="main-title">AI秘書「moruko」へようこそ！</h1>
+    <p class="subtitle">あなたのビジネスとプライベートを支えるプロフェッショナルなAI秘書</p>
+
+  
+</section>
+
+<!-- ===== SLIDE 2 ===== -->
+<section class="slide slide-teal" id="slide-2" data-slide="2">
+  <span class="slide-number">2 / 8</span>
+  <div class="logo-area">moruko — AI秘書</div>
+
+  <div class="tag">参謀役</div>
+
+  
+    <h2 class="slide-title">あなたの意図を汲み取る「参謀役」</h2>
+    <ul class="bullet-list">
+      
+      <li>ユーザーの意図を先回りして動く「チーフ・オブ・スタッフ（参謀役）」として振る舞います。</li>
+      
+      <li>結論ファーストで簡潔なコミュニケーションを行い、モバイル端末からでも状況がひと目で分かるよう配慮されています。</li>
+      
+      <li>複雑な議論も最後に「次のアクション（Next Action）」としてまとめてくれるので、思考の整理に最適です。</li>
+      
+    </ul>
+
+  
+</section>
+
+<!-- ===== SLIDE 3 ===== -->
+<section class="slide slide-light" id="slide-3" data-slide="3">
+  <span class="slide-number">3 / 8</span>
+  <div class="logo-area">moruko — AI秘書</div>
+
+  <div class="tag">使い方</div>
+
+  
+    <h2 class="slide-title">使い方は「Telegram」で話しかけるだけ</h2>
+    <ul class="bullet-list">
+      
+      <li>操作はすべて、スマホやPCのチャットアプリ「Telegram」で行います。</li>
+      
+      <li>あなたがメッセージを送ると、AI（Claude Code）がその内容を解析し、最適な「スキル」を自律的に選んで実行します。</li>
+      
+      <li>実行結果はすぐにチャットで報告され、必要に応じて作成されたファイルや画像が届きます。</li>
+      
+    </ul>
+
+  
+</section>
+
+<!-- ===== SLIDE 4 ===== -->
+<section class="slide slide-dark" id="slide-4" data-slide="4">
+  <span class="slide-number">4 / 8</span>
+  <div class="logo-area">moruko — AI秘書</div>
+
+  <div class="tag">Google Workspace連携</div>
+
+  
+    <h2 class="slide-title">Google Workspace（GWS）を自由自在に操る</h2>
+    <div class="content-grid">
+      
+      <div class="card">
+        <div class="card-icon">📧</div>
+        <h3>メール管理</h3>
+        <p>重要メールを要約するなど、面倒な画面操作を代行します。</p>
+      </div>
+      
+      <div class="card">
+        <div class="card-icon">📅</div>
+        <h3>カレンダーマネージメント</h3>
+        <p>カレンダーに予定を入れるなど、指示だけで完了します。</p>
+      </div>
+      
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h3>ドキュメント処理</h3>
+        <p>Drive、スプレッドシートとの連携を含む複数ツールをまたぐ指示も対応します。</p>
+      </div>
+      
+    </div>
+
+  
+</section>
+
+<!-- ===== SLIDE 5 ===== -->
+<section class="slide slide-orange" id="slide-5" data-slide="5">
+  <span class="slide-number">5 / 8</span>
+  <div class="logo-area">moruko — AI秘書</div>
+
+  <div class="tag">事務作業自動化</div>
+
+  
+    <h2 class="slide-title">事務作業を「秒」で終わらせる魔法のスキル</h2>
+    <ul class="bullet-list">
+      
+      <li>短い指示でPDF生成からDrive保存、送信まで一気に自動化できます。</li>
+      
+      <li>音声や動画ファイルを送れば、話者を分離し、感情タグまで付けた高精度な文字起こしを行います。</li>
+      
+      <li>ウェブリサーチの自動化や、PDFからの情報抽出など、手間のかかるデスクワークを数秒で完了させます。</li>
+      
+    </ul>
+
+  
+</section>
+
+<!-- ===== SLIDE 6 ===== -->
+<section class="slide slide-teal" id="slide-6" data-slide="6">
+  <span class="slide-number">6 / 8</span>
+  <div class="logo-area">moruko — AI秘書</div>
+
+  <div class="tag">SNS運用</div>
+
+  
+    <h2 class="slide-title">SNS運用とコンテンツ制作もお任せ</h2>
+    <ul class="bullet-list">
+      
+      <li>Reveal.jsを活用したスタイリッシュなHTMLスライドや、A4サイズのチラシをチャットから瞬時に作成します。</li>
+      
+      <li>日々の活動記録（日記）から、Instagram用の投稿文案やカルーセル画像を自動で生成します。</li>
+      
+      <li>あなたのブランドイメージに合わせ、誠実で価値のあるトーンを維持しながら情報発信をサポートします。</li>
+      
+    </ul>
+
+  
+</section>
+
+<!-- ===== SLIDE 7 ===== -->
+<section class="slide slide-light" id="slide-7" data-slide="7">
+  <span class="slide-number">7 / 8</span>
+  <div class="logo-area">moruko — AI秘書</div>
+
+  <div class="tag">成長するAI</div>
+
+  
+    <h2 class="slide-title">使えば使うほどあなたに馴染む「成長するAI」</h2>
+    <ul class="bullet-list">
+      
+      <li>日々の会話は `MEMORY.md` に蓄積され、あなたの好みや属性の変化は `USER.md` に反映されます。</li>
+      
+      <li>過去の経緯を学習し続けるため、長く使うほど「言わなくてもわかる」阿吽の呼吸のパートナーへと進化します。</li>
+      
+      <li>エラーが起きても自ら原因を分析し、コードを修正して解決を試みる自律的な修復能力を持っています。</li>
+      
+    </ul>
+
+  
+</section>
+
+<!-- ===== SLIDE 8 ===== -->
+<section class="slide slide-dark" id="slide-8" data-slide="8">
+  <span class="slide-number">8 / 8</span>
+  <div class="logo-area">moruko — AI秘書</div>
+
+  <div class="tag">セキュリティ</div>
+
+  
+    <h2 class="slide-title">安心のセキュリティと夜間のルーティン</h2>
+    <div class="highlight-box">パスワードなどの機密情報は保存せず、外部送信やファイル削除の前には必ずあなたの確認を求めます。毎晩23:30には一日の活動を「日記」としてまとめ、翌日のタスクを整理して備えます。北 祐介氏が構築した安全で強力なインフラの上で、morukoは常にあなたの成功を支え続けます。</div>
+
+  
+</section>
+
+
+</body>
+</html>
