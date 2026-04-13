@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIって、ChatGPTだけじゃない。| 関西学院大学 福祉科×AI講座 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --orange: #f27c22;
+    --orange-light: #fff5ec;
+    --orange-mid: #fde8d0;
+    --near-black: #222222;
+    --secondary: #6a6a6a;
+    --white: #ffffff;
+    --surface: #f8f8f8;
+    --shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', -apple-system, system-ui, Helvetica, sans-serif;
+    background: #ebebeb;
+  }
+
+  /* 16:9 slide */
+  .slide {
+    width: 100vw;
+    height: 56.25vw;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4vw 6vw;
+    background: #ffffff;
+    color: var(--near-black);
+    border-bottom: 3px solid #ebebeb;
+  }
+
+  /* Subtle radial bg decoration */
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 50%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(242,124,34,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  /* Slide number */
+  .snum {
+    position: absolute;
+    top: 3%;
+    right: 4%;
+    font-size: 0.95vw;
+    color: #aaaaaa;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+  }
+
+  /* Logo bottom-left */
+  .logo {
+    position: absolute;
+    bottom: 3%;
+    left: 3.5%;
+    height: 3vw;
+    opacity: 0.55;
+  }
+
+  /* Section tag pill */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    background: var(--orange-light);
+    color: var(--orange);
+    font-size: 0.95vw;
+    font-weight: 700;
+    padding: 0.35vw 1.1vw;
+    border-radius: 2vw;
+    margin-bottom: 1.8vw;
+    letter-spacing: 0.06em;
+    border: 1.5px solid rgba(242,124,34,0.25);
+  }
+
+  h1.cover-title {
+    font-size: 5vw;
+    font-weight: 900;
+    line-height: 1.18;
+    text-align: center;
+    color: var(--near-black);
+    letter-spacing: -0.025em;
+    margin-bottom: 1.8vw;
+  }
+  h1.cover-title .ac { color: var(--orange); }
+
+  h2.title {
+    font-size: 3.2vw;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--near-black);
+    text-align: center;
+    margin-bottom: 2vw;
+    letter-spacing: -0.01em;
+  }
+
+  .sub {
+    font-size: 1.5vw;
+    color: var(--secondary);
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* Airbnb card */
+  .card {
+    background: #ffffff;
+    border-radius: 1.5vw;
+    padding: 1.6vw 1.8vw;
+    box-shadow: var(--shadow);
+  }
+  .card .ci { font-size: 2.5vw; margin-bottom: 0.6vw; }
+  .card h3 { font-size: 1.25vw; font-weight: 700; margin-bottom: 0.4vw; color: var(--near-black); }
+  .card p { font-size: 1.05vw; line-height: 1.6; color: var(--secondary); }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5vw; width: 100%; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5vw; width: 100%; }
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2vw; width: 100%; }
+
+  /* Bullet list */
+  .blist { list-style: none; width: 100%; max-width: 68vw; }
+  .blist li {
+    font-size: 1.65vw;
+    padding: 0.9vw 0;
+    border-bottom: 1px solid #f2f2f2;
+    display: flex;
+    align-items: center;
+    gap: 1.2vw;
+    color: var(--near-black);
+    font-weight: 500;
+  }
+  .blist li .dot {
+    width: 0.7vw;
+    height: 0.7vw;
+    background: var(--orange);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Big question */
+  .bigq {
+    font-size: 4.2vw;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.4;
+    color: var(--near-black);
+  }
+  .bigq .ac { color: var(--orange); }
+
+  /* Highlight box */
+  .hbox {
+    background: var(--orange-light);
+    border-left: 0.5vw solid var(--orange);
+    border-radius: 0 1vw 1vw 0;
+    padding: 1.5vw 2.2vw;
+    font-size: 1.5vw;
+    line-height: 1.8;
+    max-width: 72vw;
+    text-align: left;
+    color: var(--near-black);
+    font-weight: 500;
+  }
+
+  /* Stat big number */
+  .stat { font-size: 6vw; font-weight: 900; color: var(--orange); letter-spacing: -0.03em; line-height: 1; }
+  .stat-label { font-size: 1.4vw; color: var(--secondary); font-weight: 500; margin-top: 0.5vw; }
+
+  /* Character image floating right */
+  .char-img {
+    position: absolute;
+    right: 3vw;
+    bottom: 0;
+    height: 82%;
+    object-fit: contain;
+  }
+
+  /* Content pushed left when char on right */
+  .left-content {
+    align-items: flex-start;
+    padding-right: 28vw;
+  }
+
+  /* Cover slide */
+  .slide.cover {
+    background: linear-gradient(145deg, #ffffff 55%, var(--orange-light) 100%);
+  }
+
+  /* Dark slides */
+  .slide.dark {
+    background: var(--near-black);
+    color: #ffffff;
+  }
+  .slide.dark h2.title { color: #ffffff; }
+  .slide.dark .sub { color: rgba(255,255,255,0.65); }
+  .slide.dark .tag { background: rgba(242,124,34,0.18); color: var(--orange); border-color: rgba(242,124,34,0.35); }
+  .slide.dark .blist li { color: #ffffff; border-bottom-color: rgba(255,255,255,0.1); }
+  .slide.dark .hbox { background: rgba(242,124,34,0.12); color: #ffffff; }
+  .slide.dark::before { background: radial-gradient(circle, rgba(242,124,34,0.08) 0%, transparent 65%); }
+
+  /* Orange accent slide */
+  .slide.orange-bg {
+    background: linear-gradient(135deg, #f27c22 0%, #e06010 100%);
+    color: #ffffff;
+  }
+  .slide.orange-bg h2.title { color: #ffffff; }
+  .slide.orange-bg .sub { color: rgba(255,255,255,0.85); }
+  .slide.orange-bg .tag { background: rgba(255,255,255,0.2); color: #ffffff; border-color: rgba(255,255,255,0.4); }
+  .slide.orange-bg::before { background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 65%); }
+
+  /* QR code area */
+  .qr-wrap {
+    background: #ffffff;
+    border-radius: 1.5vw;
+    padding: 2vw;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .qr-wrap img { width: 13vw; height: 13vw; }
+
+  /* Tool badge */
+  .tool-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6vw;
+    background: #ffffff;
+    border-radius: 1.5vw;
+    padding: 1.5vw 1.5vw;
+    box-shadow: var(--shadow);
+  }
+  .tool-badge .ti { font-size: 3vw; }
+  .tool-badge .tn { font-size: 1.05vw; font-weight: 700; color: var(--near-black); text-align: center; }
+
+  /* Map style grid */
+  .map-card {
+    background: #ffffff;
+    border-radius: 1.5vw;
+    padding: 1.8vw;
+    box-shadow: var(--shadow);
+    border-top: 0.4vw solid var(--orange);
+  }
+  .map-card h3 { font-size: 1.3vw; font-weight: 700; color: var(--near-black); margin-bottom: 0.8vw; }
+  .map-card .tools { display: flex; flex-wrap: wrap; gap: 0.5vw; }
+  .map-card .tpill {
+    background: var(--orange-light);
+    color: var(--orange);
+    font-size: 0.9vw;
+    font-weight: 600;
+    padding: 0.3vw 0.8vw;
+    border-radius: 1vw;
+  }
+
+  /* Final slide */
+  .slide.final {
+    background: linear-gradient(150deg, #1a1a2e 0%, #222222 100%);
+    color: #ffffff;
+  }
+  .slide.final h2.title { color: #ffffff; }
+  .slide.final .sub { color: rgba(255,255,255,0.7); }
+  .slide.final .tag { background: rgba(242,124,34,0.2); color: var(--orange); border-color: rgba(242,124,34,0.35); }
+
+  /* Profile photo */
+  .profile-photo {
+    width: 6vw;
+    height: 6vw;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 0.3vw solid var(--orange);
+    margin-bottom: 1vw;
+  }
+
+  ::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ===== 01 表紙 ===== -->
+<section class="slide cover" id="s1">
+  <span class="snum">01 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">関西学院大学 福祉科 × AI講座 2026</div>
+  <h1 class="cover-title">AIって、<span class="ac">ChatGPT</span>だけじゃない。</h1>
+  <p class="sub">あなたが知らないAIの世界と、自分専属AI部下を持つ時代の話</p>
+
+  <img class="char-img" src="img/moruko_character.png" alt="moruko character">
+</section>
+
+
+<!-- ===== 02 第1部-1 ChatGPT使ってる？ ===== -->
+<section class="slide dark" id="s2">
+  <span class="snum">02 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1)">
+
+  <div class="tag">第1部｜AIって何使ってる？</div>
+  <div class="bigq" style="color:#fff;">
+    <span class="ac">ChatGPT</span><br>使ってる人？🙋
+  </div>
+  <div style="margin-top:3vw; display:flex; gap:3vw; justify-content:center;">
+    <div style="text-align:center;">
+      <div style="font-size:3.5vw;">🤖</div>
+      <div style="font-size:1.2vw; color:rgba(255,255,255,0.65); margin-top:0.5vw; font-weight:500;">AIに詳しい人？</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:3.5vw;">🤔</div>
+      <div style="font-size:1.2vw; color:rgba(255,255,255,0.65); margin-top:0.5vw; font-weight:500;">AIに反対の人？</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:3.5vw;">😐</div>
+      <div style="font-size:1.2vw; color:rgba(255,255,255,0.65); margin-top:0.5vw; font-weight:500;">よくわからない人？</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 03 第1部-2 QRコード ===== -->
+<section class="slide" id="s3">
+  <span class="snum">03 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第1部｜まず触ってみよう</div>
+  <h2 class="title">文科省の資料に<span style="color:var(--orange);">質問</span>してみよう</h2>
+
+  <div style="display:flex; gap:4vw; align-items:center; margin-top:1vw;">
+    <div class="qr-wrap">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://notebooklm.google.com/notebook/f9249f5a-dc75-42ec-a7af-a52eda6f0f3e" alt="QR Code">
+    </div>
+    <div style="text-align:left;">
+      <div style="font-size:1.2vw; color:var(--secondary); font-weight:500; margin-bottom:1vw;">📱 スマホでQRを読み取って</div>
+      <div class="hbox" style="max-width:36vw; font-size:1.3vw;">
+        <strong>NotebookLM</strong> とは？<br>
+        Googleが作ったAI。<br>
+        資料を読み込んで<br>
+        質問に答えてくれる。
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 04 第1部-3 AI一覧 ===== -->
+<section class="slide" id="s4">
+  <span class="snum">04 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第1部｜今使ったのもAIです</div>
+  <h2 class="title">ChatGPT以外にもAIはたくさんある</h2>
+
+  <div class="grid4" style="margin-top:1vw;">
+    <div class="tool-badge">
+      <div class="ti">🤖</div>
+      <div class="tn">ChatGPT</div>
+      <div style="font-size:0.85vw; color:var(--secondary); font-weight:400; text-align:center;">Open AI<br>会話・文章生成</div>
+    </div>
+    <div class="tool-badge">
+      <div class="ti">✦</div>
+      <div class="tn">Claude</div>
+      <div style="font-size:0.85vw; color:var(--secondary); font-weight:400; text-align:center;">Anthropic<br>長文・分析に強い</div>
+    </div>
+    <div class="tool-badge">
+      <div class="ti">📓</div>
+      <div class="tn">NotebookLM</div>
+      <div style="font-size:0.85vw; color:var(--secondary); font-weight:400; text-align:center;">Google<br>資料を読んで回答</div>
+    </div>
+    <div class="tool-badge">
+      <div class="ti">🕹️</div>
+      <div class="tn">Manus</div>
+      <div style="font-size:0.85vw; color:var(--secondary); font-weight:400; text-align:center;">エージェント系<br>自律的に作業する</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 05 第2部-1 AIが世論を動かす ===== -->
+<section class="slide dark" id="s5">
+  <span class="snum">05 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1)">
+
+  <div class="tag">第2部｜AIが「世論」を動かす</div>
+  <h2 class="title">2026年衆院選、<span style="color:var(--orange);">認知戦</span>の時代</h2>
+
+  <div style="display:flex; gap:4vw; align-items:center; margin-top:0.5vw;">
+    <div style="text-align:center;">
+      <div class="stat">1億</div>
+      <div class="stat-label">YouTube広告 再生数</div>
+    </div>
+    <div style="width:0.1vw; height:8vw; background:rgba(255,255,255,0.15);"></div>
+    <div class="hbox" style="max-width:48vw;">
+      AIが生成した動画・音声・テキストが<br>
+      選挙期間中に大量拡散。<br>
+      「誰が、何を信じるか」を<br>
+      AIが設計できる時代に。
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 06 第2部-2 フェイクを見破る ===== -->
+<section class="slide" id="s6">
+  <span class="snum">06 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第2部｜フェイクを見破るには？</div>
+  <h2 class="title">AI動画の<span style="color:var(--orange);">見分け方</span></h2>
+
+  <ul class="blist" style="max-width:65vw;">
+    <li><span class="dot"></span>🔍 <strong>顔・唇の動き</strong>が不自然にカクつく、または滑らかすぎる</li>
+    <li><span class="dot"></span>👂 <strong>声と映像のタイミング</strong>がわずかにズレている</li>
+    <li><span class="dot"></span>💡 <strong>光の当たり方・影</strong>が顔と背景で一致していない</li>
+    <li><span class="dot"></span>🏷️ <strong>感情を煽る</strong>タイトル・サムネイルには要注意</li>
+  </ul>
+</section>
+
+
+<!-- ===== 07 第2部-3 ホワイトカラー ===== -->
+<section class="slide" id="s7">
+  <span class="snum">07 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第2部｜ホワイトカラーの仕事が消える？</div>
+  <h2 class="title">PC1台を<span style="color:var(--orange);">AIが丸ごと操作</span>できる時代</h2>
+
+  <div class="grid2" style="max-width:78vw; margin-top:0.5vw;">
+    <div class="card">
+      <div class="ci">🤖</div>
+      <h3>OpenClaw（ClawnBot）</h3>
+      <p>マウス・キーボードを自律的に操作するAIエージェント。メール返信・資料作成・ブラウザ操作を人の代わりに実行。</p>
+    </div>
+    <div class="card">
+      <div class="ci">💼</div>
+      <h3>影響を受けやすい職種</h3>
+      <p>データ入力・経理事務・コールセンター・翻訳・法律文書の下書き など、定型的なホワイトカラー業務から変化が始まっている。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 08 第2部-4 ブルーカラーも変わる ===== -->
+<section class="slide" id="s8">
+  <span class="snum">08 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第2部｜ブルーカラーも変わる</div>
+  <h2 class="title">人型ロボットが<span style="color:var(--orange);">バイト1年分</span>で買える</h2>
+
+  <div style="display:flex; gap:5vw; align-items:center; margin-top:0.5vw;">
+    <div style="text-align:center;">
+      <div style="font-size:6vw;">🦾</div>
+      <div class="stat">$13,500</div>
+      <div class="stat-label">Unitree G1 スタート価格〜</div>
+    </div>
+    <div class="hbox" style="max-width:48vw;">
+      <strong>Unitree G1</strong>：中国製の人型ロボット。<br>
+      工場・物流・農業での活用が始まっている。<br><br>
+      アルバイト1年分の給与で導入でき、<br>
+      24時間365日働き続ける。<br>
+      「人手不足」の解決策として注目。
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 09 第2部-5 チャンスでもある ===== -->
+<section class="slide orange-bg" id="s9">
+  <span class="snum">09 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1); opacity:0.6;">
+
+  <div class="tag">第2部｜でも、これはチャンスでもある</div>
+  <h2 class="title" style="color:#fff;">自分専属の<span style="opacity:0.85;">「AI部下」</span>を持つ時代</h2>
+
+  <div style="display:flex; gap:3vw; margin-top:1.5vw;">
+    <div style="background:rgba(255,255,255,0.18); border-radius:1.5vw; padding:1.8vw; flex:1; text-align:center;">
+      <div style="font-size:3vw; margin-bottom:0.8vw;">🧑‍💼</div>
+      <div style="font-size:1.1vw; color:#fff; font-weight:600;">以前</div>
+      <div style="font-size:0.95vw; color:rgba(255,255,255,0.75); margin-top:0.4vw;">部下・外注・専門家に頼む<br>→ お金と時間がかかる</div>
+    </div>
+    <div style="display:flex; align-items:center; font-size:2.5vw;">→</div>
+    <div style="background:rgba(255,255,255,0.25); border-radius:1.5vw; padding:1.8vw; flex:1; text-align:center; border:2px solid rgba(255,255,255,0.5);">
+      <div style="font-size:3vw; margin-bottom:0.8vw;">🤖</div>
+      <div style="font-size:1.1vw; color:#fff; font-weight:700;">これから</div>
+      <div style="font-size:0.95vw; color:rgba(255,255,255,0.85); margin-top:0.4vw;">AIが無制限に働いてくれる<br>→ 個人でも会社と戦える</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 10 第3部-1 バイブコーダー ===== -->
+<section class="slide" id="s10">
+  <span class="snum">10 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第3部｜プログラミングを知らなくても作れる</div>
+  <h2 class="title"><span style="color:var(--orange);">バイブコーディング</span>という新しい働き方</h2>
+
+  <div class="grid2" style="max-width:80vw; margin-top:0.5vw;">
+    <div class="card">
+      <div class="ci">💬</div>
+      <h3>バイブコーダーとは？</h3>
+      <p>「こんなアプリを作りたい」と話しかけるだけでAIがコードを書いてくれる。プログラミング知識ゼロでもアプリ・サービスを作れる時代。（伊藤穰一チャンネルも注目）</p>
+    </div>
+    <div class="card">
+      <div class="ci">🏢</div>
+      <h3>シリコンバレーの現実</h3>
+      <p>スタートアップの<strong>4割が一人企業</strong>になりつつある。AIが営業・開発・デザインを肩代わりし、小規模チームが大企業と同等のサービスを作れる。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 11 第3部-2 北さんの事例 ===== -->
+<section class="slide" id="s11">
+  <span class="snum">11 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第3部｜実際に作ったものたち</div>
+  <h2 class="title">プログラミング歴<span style="color:var(--orange);">ゼロ</span>でも作れた</h2>
+
+  <div style="display:flex; gap:4vw; align-items:center; margin-top:0.5vw;">
+    <div style="text-align:center;">
+      <img src="img/kita_profile.jpg" alt="北さん" class="profile-photo">
+      <div style="font-size:1.1vw; font-weight:700; color:var(--near-black);">北 典史</div>
+      <div style="font-size:0.9vw; color:var(--secondary);">Mi-LAI Lab 代表</div>
+    </div>
+    <div>
+      <ul class="blist">
+        <li><span class="dot"></span>💳 <strong>JPYC決済システム</strong>をAIと一緒に実装</li>
+        <li><span class="dot"></span>📦 <strong>クラウドファンディング</strong>サイトを個人で制作</li>
+        <li><span class="dot"></span>🤖 <strong>moruko（AI秘書）</strong>をミニPCで自宅運用</li>
+        <li><span class="dot"></span>📊 講座・LP・資料作成もAIが9割担当</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 12 第3部-3 AIツールマップ ===== -->
+<section class="slide" id="s12">
+  <span class="snum">12 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第3部｜AIツールマップ</div>
+  <h2 class="title">用途別に整理する<span style="color:var(--orange);">AIツール</span></h2>
+
+  <div class="grid3" style="margin-top:0.5vw;">
+    <div class="map-card">
+      <h3>💬 会話・文章生成</h3>
+      <div class="tools">
+        <span class="tpill">ChatGPT</span>
+        <span class="tpill">Claude</span>
+        <span class="tpill">Gemini</span>
+        <span class="tpill">Grok</span>
+      </div>
+      <p style="font-size:0.95vw; color:var(--secondary); margin-top:0.8vw; line-height:1.6;">質問・アイデア出し・文章の下書き・翻訳など日常業務に直結</p>
+    </div>
+    <div class="map-card">
+      <h3>🕹️ エージェント系</h3>
+      <div class="tools">
+        <span class="tpill">Manus</span>
+        <span class="tpill">moruko</span>
+        <span class="tpill">Devin</span>
+        <span class="tpill">OpenClaw</span>
+      </div>
+      <p style="font-size:0.95vw; color:var(--secondary); margin-top:0.8vw; line-height:1.6;">自律的にPCを操作、メール返信・リサーチ・コード実行まで自動化</p>
+    </div>
+    <div class="map-card">
+      <h3>📚 学習補助系</h3>
+      <div class="tools">
+        <span class="tpill">NotebookLM</span>
+        <span class="tpill">Perplexity</span>
+        <span class="tpill">Khan AI</span>
+      </div>
+      <p style="font-size:0.95vw; color:var(--secondary); margin-top:0.8vw; line-height:1.6;">資料要約・論文解説・わからないことを対話しながら学べる</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 13 第4部-1 Manusデモ ===== -->
+<section class="slide dark" id="s13">
+  <span class="snum">13 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1)">
+
+  <div class="tag">第4部｜やってみよう</div>
+  <div class="bigq" style="color:#fff; font-size:3.5vw; margin-bottom:2vw;">
+    今日ここで、あなたの<br>
+    <span class="ac">ホームページが生まれます。</span>
+  </div>
+  <div style="display:flex; gap:2vw; justify-content:center;">
+    <div style="background:rgba(255,255,255,0.07); border-radius:1.5vw; padding:1.2vw 2.5vw; text-align:center;">
+      <div style="font-size:2vw;">🕹️</div>
+      <div style="font-size:1.1vw; color:#fff; font-weight:600; margin-top:0.4vw;">Manus</div>
+      <div style="font-size:0.9vw; color:rgba(255,255,255,0.6);">AIエージェント</div>
+    </div>
+    <div style="display:flex; align-items:center; color:var(--orange); font-size:2vw;">→</div>
+    <div style="background:rgba(242,124,34,0.15); border-radius:1.5vw; padding:1.2vw 2.5vw; text-align:center; border:1.5px solid rgba(242,124,34,0.4);">
+      <div style="font-size:2vw;">🌐</div>
+      <div style="font-size:1.1vw; color:#fff; font-weight:600; margin-top:0.4vw;">あなたのHP</div>
+      <div style="font-size:0.9vw; color:rgba(255,255,255,0.6);">数分で完成</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 14 第5部-1 AIは思った以上できない ===== -->
+<section class="slide" id="s14">
+  <span class="snum">14 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第5部｜AIを使いこなすために</div>
+  <h2 class="title">AIは<span style="color:var(--orange);">「思った以上」</span>はできない</h2>
+
+  <div class="hbox" style="max-width:70vw; font-size:1.55vw; margin-bottom:2vw;">
+    🚗 <strong>車のたとえ</strong>：車は運転者のイメージする道しか走れない。<br>
+    AIも同じ。<strong>あなたのイメージ＝AIアウトプットの天井。</strong><br>
+    「なんとなく良いやつ作って」では良いものはできない。
+  </div>
+  <div style="display:flex; gap:2vw;">
+    <div class="card" style="text-align:center; min-width:18vw;">
+      <div class="ci">🤔</div>
+      <h3>曖昧な指示</h3>
+      <p>「いい感じにして」<br>→ 平均的な出力</p>
+    </div>
+    <div style="display:flex; align-items:center; font-size:2.5vw; color:var(--orange);">→</div>
+    <div class="card" style="text-align:center; min-width:18vw; border:1.5px solid var(--orange);">
+      <div class="ci">🎯</div>
+      <h3 style="color:var(--orange);">具体的な指示</h3>
+      <p>目的・読者・トーンを<br>明確に伝える → 高品質</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 15 第5部-2 福祉の思想がAIを変える ===== -->
+<section class="slide" id="s15">
+  <span class="snum">15 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第5部｜福祉の思想がAIを変える</div>
+  <h2 class="title">同じAIでも<span style="color:var(--orange);">「誰が・何のために」</span>で変わる</h2>
+
+  <div class="grid2" style="max-width:78vw; margin-top:0.5vw;">
+    <div class="card" style="border-top:0.4vw solid #e53e3e;">
+      <div class="ci">⚔️</div>
+      <h3 style="color:#e53e3e;">破壊的利用</h3>
+      <p>軍事・監視・フェイクニュース・詐欺メール自動生成……<br>AIは「悪意」も増幅する。</p>
+    </div>
+    <div class="card" style="border-top:0.4vw solid var(--orange);">
+      <div class="ci">🕊️</div>
+      <h3 style="color:var(--orange);">建設的利用</h3>
+      <p>仏教研究・障がい者支援・高齢者の孤立防止・医療診断補助……<br>福祉の視点がAIを変える。</p>
+    </div>
+  </div>
+
+  <div class="hbox" style="max-width:70vw; margin-top:2vw; font-size:1.3vw;">
+    💡 AIは道具。使う人の思想・倫理観がアウトプットの質と方向性を決める。
+  </div>
+</section>
+
+
+<!-- ===== 16 第5部-3 文科省 ===== -->
+<section class="slide" id="s16">
+  <span class="snum">16 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="tag">第5部｜文科省はこう言っている</div>
+  <h2 class="title">「大学・高専における生成AIの<span style="color:var(--orange);">教学面の取扱い</span>について」</h2>
+
+  <ul class="blist" style="max-width:68vw;">
+    <li><span class="dot"></span>📄 生成AIの利用を<strong>一律禁止するのではなく</strong>、適切な活用を推進</li>
+    <li><span class="dot"></span>🎓 <strong>学習の本質</strong>（思考・創造・批判的思考）を損なう使用は禁止</li>
+    <li><span class="dot"></span>🏫 各大学が<strong>ポリシー策定</strong>を行い、学生に明示することを求める</li>
+    <li><span class="dot"></span>🌐 AIリテラシーを高める<strong>教育機会の充実</strong>を推奨</li>
+  </ul>
+</section>
+
+
+<!-- ===== 17 第6部-1 ディスカッション ===== -->
+<section class="slide dark" id="s17">
+  <span class="snum">17 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1)">
+
+  <div class="tag">第6部｜ディスカッション</div>
+  <div class="bigq" style="color:#fff; font-size:4.5vw; line-height:1.5;">
+    AIは社会を<br>
+    <span class="ac">良くする</span>か？
+  </div>
+  <div style="display:flex; gap:2vw; margin-top:3vw; justify-content:center;">
+    <div style="background:rgba(255,255,255,0.07); border-radius:1vw; padding:0.8vw 1.8vw; font-size:1.1vw; color:rgba(255,255,255,0.7);">💬 あなたはどう思う？</div>
+    <div style="background:rgba(255,255,255,0.07); border-radius:1vw; padding:0.8vw 1.8vw; font-size:1.1vw; color:rgba(255,255,255,0.7);">💬 誰が決めるべき？</div>
+    <div style="background:rgba(255,255,255,0.07); border-radius:1vw; padding:0.8vw 1.8vw; font-size:1.1vw; color:rgba(255,255,255,0.7);">💬 自分にできることは？</div>
+  </div>
+</section>
+
+
+<!-- ===== 18 最終スライド ===== -->
+<section class="slide final" id="s18">
+  <span class="snum">18 / 18</span>
+
+  <div class="tag">まとめ</div>
+  <h2 class="title" style="font-size:3.8vw; letter-spacing:-0.02em;">
+    AIを使う人の<span style="color:var(--orange);">思想</span>が、<br>
+    社会をつくる。
+  </h2>
+  <p class="sub" style="margin-top:2vw; color:rgba(255,255,255,0.6);">
+    今日学んだこと、明日からの行動に。
+  </p>
+
+  <div style="display:flex; gap:3vw; margin-top:3vw; align-items:center;">
+    <img src="img/moruko_character.png" alt="moruko" style="height:14vw; object-fit:contain; filter:drop-shadow(0 4px 16px rgba(242,124,34,0.4));">
+    <div style="text-align:left;">
+      <img src="img/moruko_logo_wide.png" alt="moruko" style="height:3.5vw; filter:brightness(0) invert(1); opacity:0.9; margin-bottom:1vw; display:block;">
+      <div style="font-size:1.1vw; color:rgba(255,255,255,0.6); line-height:2;">
+        北 典史 / Mi-LAI Lab<br>
+        Instagram: @seizogakuen<br>
+        Telegram: @moruko_bot
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
