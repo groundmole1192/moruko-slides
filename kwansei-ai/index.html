@@ -6,439 +6,455 @@
 <title>AIって、ChatGPTだけじゃない。| 関西学院大学 福祉科×AI講座 2026</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap');
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   :root {
     --orange: #f27c22;
     --orange-light: #fff5ec;
-    --orange-mid: #fde8d0;
     --near-black: #222222;
     --secondary: #6a6a6a;
-    --white: #ffffff;
-    --surface: #f8f8f8;
     --shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px;
   }
+  body { font-family: 'Noto Sans JP', -apple-system, sans-serif; background: #e8e8e8; }
 
-  body {
-    font-family: 'Noto Sans JP', -apple-system, system-ui, Helvetica, sans-serif;
-    background: #ebebeb;
-  }
-
-  /* 16:9 slide */
   .slide {
-    width: 100vw;
-    height: 56.25vw;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 4vw 6vw;
-    background: #ffffff;
-    color: var(--near-black);
-    border-bottom: 3px solid #ebebeb;
+    width: 100vw; height: 56.25vw;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: row;
+    background: #fff; color: var(--near-black);
+    border-bottom: 3px solid #e8e8e8;
   }
 
-  /* Subtle radial bg decoration */
-  .slide::before {
-    content: '';
-    position: absolute;
-    top: -20%;
-    right: -10%;
-    width: 50%;
-    height: 140%;
-    background: radial-gradient(circle, rgba(242,124,34,0.06) 0%, transparent 65%);
-    pointer-events: none;
+  /* Left content pane */
+  .pane-left {
+    flex: 0 0 52%; display: flex; flex-direction: column;
+    justify-content: center; padding: 4vw 3vw 4vw 5.5vw;
+    position: relative; z-index: 2;
+  }
+  /* Right illustration pane */
+  .pane-right {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
   }
 
-  /* Slide number */
-  .snum {
-    position: absolute;
-    top: 3%;
-    right: 4%;
-    font-size: 0.95vw;
-    color: #aaaaaa;
-    font-weight: 500;
-    letter-spacing: 0.15em;
+  /* Full-width override for centered layouts */
+  .slide.centered {
+    flex-direction: column; align-items: center; justify-content: center;
+  }
+  .slide.centered .pane-left {
+    flex: none; width: 100%; padding: 3vw 6vw 2vw;
+    align-items: center; text-align: center;
+  }
+  .slide.centered .pane-right {
+    flex: none; width: 100%; justify-content: center;
   }
 
-  /* Logo bottom-left */
-  .logo {
-    position: absolute;
-    bottom: 3%;
-    left: 3.5%;
-    height: 3vw;
-    opacity: 0.55;
-  }
+  .snum { position: absolute; top: 3%; right: 3.5%; font-size: 0.9vw; color: #bbb; font-weight: 500; letter-spacing: 0.15em; z-index: 10; }
+  .logo { position: absolute; bottom: 3%; left: 3.5%; height: 2.8vw; opacity: 0.5; z-index: 10; }
+  .logo-inv { filter: brightness(0) invert(1); }
 
-  /* Section tag pill */
   .tag {
-    display: inline-flex;
-    align-items: center;
-    background: var(--orange-light);
-    color: var(--orange);
-    font-size: 0.95vw;
-    font-weight: 700;
-    padding: 0.35vw 1.1vw;
-    border-radius: 2vw;
-    margin-bottom: 1.8vw;
-    letter-spacing: 0.06em;
-    border: 1.5px solid rgba(242,124,34,0.25);
+    display: inline-flex; align-items: center;
+    background: var(--orange-light); color: var(--orange);
+    font-size: 0.9vw; font-weight: 700;
+    padding: 0.35vw 1.1vw; border-radius: 2vw; margin-bottom: 1.5vw;
+    letter-spacing: 0.06em; border: 1.5px solid rgba(242,124,34,0.25);
+    align-self: flex-start;
   }
+  .slide.centered .tag { align-self: center; }
 
   h1.cover-title {
-    font-size: 5vw;
-    font-weight: 900;
-    line-height: 1.18;
-    text-align: center;
-    color: var(--near-black);
-    letter-spacing: -0.025em;
-    margin-bottom: 1.8vw;
+    font-size: 4.6vw; font-weight: 900; line-height: 1.2;
+    color: var(--near-black); letter-spacing: -0.025em; margin-bottom: 1.5vw;
   }
   h1.cover-title .ac { color: var(--orange); }
 
   h2.title {
-    font-size: 3.2vw;
-    font-weight: 700;
-    line-height: 1.3;
-    color: var(--near-black);
-    text-align: center;
-    margin-bottom: 2vw;
-    letter-spacing: -0.01em;
+    font-size: 2.8vw; font-weight: 700; line-height: 1.35;
+    color: var(--near-black); margin-bottom: 1.8vw; letter-spacing: -0.01em;
   }
+  h2.title .ac { color: var(--orange); }
 
-  .sub {
-    font-size: 1.5vw;
-    color: var(--secondary);
-    text-align: center;
-    font-weight: 500;
-    line-height: 1.6;
-  }
+  .sub { font-size: 1.3vw; color: var(--secondary); font-weight: 500; line-height: 1.6; }
 
-  /* Airbnb card */
-  .card {
-    background: #ffffff;
-    border-radius: 1.5vw;
-    padding: 1.6vw 1.8vw;
-    box-shadow: var(--shadow);
-  }
-  .card .ci { font-size: 2.5vw; margin-bottom: 0.6vw; }
-  .card h3 { font-size: 1.25vw; font-weight: 700; margin-bottom: 0.4vw; color: var(--near-black); }
-  .card p { font-size: 1.05vw; line-height: 1.6; color: var(--secondary); }
+  .card { background: #fff; border-radius: 1.2vw; padding: 1.4vw 1.6vw; box-shadow: var(--shadow); }
+  .card .ci { font-size: 2vw; margin-bottom: 0.5vw; }
+  .card h3 { font-size: 1.15vw; font-weight: 700; margin-bottom: 0.4vw; }
+  .card p { font-size: 0.95vw; line-height: 1.6; color: var(--secondary); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2vw; width: 100%; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2vw; width: 100%; }
 
-  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5vw; width: 100%; }
-  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5vw; width: 100%; }
-  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2vw; width: 100%; }
-
-  /* Bullet list */
-  .blist { list-style: none; width: 100%; max-width: 68vw; }
+  .blist { list-style: none; width: 100%; }
   .blist li {
-    font-size: 1.65vw;
-    padding: 0.9vw 0;
+    font-size: 1.45vw; padding: 0.8vw 0;
     border-bottom: 1px solid #f2f2f2;
-    display: flex;
-    align-items: center;
-    gap: 1.2vw;
-    color: var(--near-black);
-    font-weight: 500;
+    display: flex; align-items: center; gap: 1vw;
+    color: var(--near-black); font-weight: 500;
   }
-  .blist li .dot {
-    width: 0.7vw;
-    height: 0.7vw;
-    background: var(--orange);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .blist li .dot { width: 0.6vw; height: 0.6vw; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
 
-  /* Big question */
-  .bigq {
-    font-size: 4.2vw;
-    font-weight: 900;
-    text-align: center;
-    line-height: 1.4;
-    color: var(--near-black);
-  }
-  .bigq .ac { color: var(--orange); }
-
-  /* Highlight box */
   .hbox {
     background: var(--orange-light);
-    border-left: 0.5vw solid var(--orange);
-    border-radius: 0 1vw 1vw 0;
-    padding: 1.5vw 2.2vw;
-    font-size: 1.5vw;
-    line-height: 1.8;
-    max-width: 72vw;
-    text-align: left;
-    color: var(--near-black);
-    font-weight: 500;
+    border-left: 0.45vw solid var(--orange);
+    border-radius: 0 0.8vw 0.8vw 0;
+    padding: 1.3vw 1.8vw;
+    font-size: 1.3vw; line-height: 1.8;
+    color: var(--near-black); font-weight: 500;
   }
 
-  /* Stat big number */
-  .stat { font-size: 6vw; font-weight: 900; color: var(--orange); letter-spacing: -0.03em; line-height: 1; }
-  .stat-label { font-size: 1.4vw; color: var(--secondary); font-weight: 500; margin-top: 0.5vw; }
+  .stat { font-size: 5.5vw; font-weight: 900; color: var(--orange); letter-spacing: -0.03em; line-height: 1; }
+  .stat-label { font-size: 1.2vw; color: var(--secondary); font-weight: 500; margin-top: 0.4vw; }
 
-  /* Character image floating right */
-  .char-img {
-    position: absolute;
-    right: 3vw;
-    bottom: 0;
-    height: 82%;
-    object-fit: contain;
-  }
+  /* Theme variants */
+  .slide.dark { background: var(--near-black); }
+  .slide.dark h2.title, .slide.dark h1.cover-title { color: #fff; }
+  .slide.dark .sub { color: rgba(255,255,255,0.6); }
+  .slide.dark .blist li { color: #fff; border-bottom-color: rgba(255,255,255,0.1); }
+  .slide.dark .hbox { background: rgba(242,124,34,0.12); color: #fff; }
+  .slide.dark .tag { background: rgba(242,124,34,0.18); color: var(--orange); border-color: rgba(242,124,34,0.3); }
 
-  /* Content pushed left when char on right */
-  .left-content {
-    align-items: flex-start;
-    padding-right: 28vw;
-  }
-
-  /* Cover slide */
-  .slide.cover {
-    background: linear-gradient(145deg, #ffffff 55%, var(--orange-light) 100%);
-  }
-
-  /* Dark slides */
-  .slide.dark {
-    background: var(--near-black);
-    color: #ffffff;
-  }
-  .slide.dark h2.title { color: #ffffff; }
-  .slide.dark .sub { color: rgba(255,255,255,0.65); }
-  .slide.dark .tag { background: rgba(242,124,34,0.18); color: var(--orange); border-color: rgba(242,124,34,0.35); }
-  .slide.dark .blist li { color: #ffffff; border-bottom-color: rgba(255,255,255,0.1); }
-  .slide.dark .hbox { background: rgba(242,124,34,0.12); color: #ffffff; }
-  .slide.dark::before { background: radial-gradient(circle, rgba(242,124,34,0.08) 0%, transparent 65%); }
-
-  /* Orange accent slide */
-  .slide.orange-bg {
-    background: linear-gradient(135deg, #f27c22 0%, #e06010 100%);
-    color: #ffffff;
-  }
-  .slide.orange-bg h2.title { color: #ffffff; }
+  .slide.orange-bg { background: linear-gradient(135deg, #f27c22 0%, #e06010 100%); }
+  .slide.orange-bg h2.title { color: #fff; }
   .slide.orange-bg .sub { color: rgba(255,255,255,0.85); }
-  .slide.orange-bg .tag { background: rgba(255,255,255,0.2); color: #ffffff; border-color: rgba(255,255,255,0.4); }
-  .slide.orange-bg::before { background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 65%); }
+  .slide.orange-bg .tag { background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.4); }
+  .slide.orange-bg .blist li { color: #fff; border-bottom-color: rgba(255,255,255,0.2); }
+  .slide.orange-bg .blist li .dot { background: #fff; }
 
-  /* QR code area */
-  .qr-wrap {
-    background: #ffffff;
-    border-radius: 1.5vw;
-    padding: 2vw;
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .slide.final-bg {
+    background: linear-gradient(150deg, #1a1a2e 0%, #222 100%);
   }
-  .qr-wrap img { width: 13vw; height: 13vw; }
+  .slide.final-bg h2.title { color: #fff; }
+  .slide.final-bg .sub { color: rgba(255,255,255,0.6); }
+  .slide.final-bg .tag { background: rgba(242,124,34,0.2); color: var(--orange); border-color: rgba(242,124,34,0.35); }
+
+  /* Illustration panel bg */
+  .pane-right.orange-panel { background: linear-gradient(135deg, var(--orange-light) 0%, #fde8d0 100%); }
+  .pane-right.dark-panel { background: rgba(255,255,255,0.04); }
+  .pane-right.subtle-panel { background: #fafafa; }
+
+  /* Cover specific */
+  .slide.cover { background: linear-gradient(145deg, #fff 55%, var(--orange-light) 100%); }
+
+  /* SVG base styles */
+  .illus-svg { width: 80%; max-width: 28vw; height: auto; }
+
+  /* QR */
+  .qr-wrap { background: #fff; border-radius: 1.5vw; padding: 1.5vw; box-shadow: var(--shadow); display:inline-flex; }
+  .qr-wrap img { width: 11vw; height: 11vw; display: block; }
 
   /* Tool badge */
-  .tool-badge {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6vw;
-    background: #ffffff;
-    border-radius: 1.5vw;
-    padding: 1.5vw 1.5vw;
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1vw; width: 80%; }
+  .tbadge {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5vw;
+    background: #fff; border-radius: 1.2vw; padding: 1.2vw 1vw;
     box-shadow: var(--shadow);
   }
-  .tool-badge .ti { font-size: 3vw; }
-  .tool-badge .tn { font-size: 1.05vw; font-weight: 700; color: var(--near-black); text-align: center; }
+  .tbadge .ti { font-size: 2.4vw; }
+  .tbadge .tn { font-size: 0.95vw; font-weight: 700; color: var(--near-black); text-align: center; }
+  .tbadge .ts { font-size: 0.8vw; color: var(--secondary); text-align: center; }
 
-  /* Map style grid */
-  .map-card {
-    background: #ffffff;
-    border-radius: 1.5vw;
-    padding: 1.8vw;
-    box-shadow: var(--shadow);
-    border-top: 0.4vw solid var(--orange);
-  }
-  .map-card h3 { font-size: 1.3vw; font-weight: 700; color: var(--near-black); margin-bottom: 0.8vw; }
-  .map-card .tools { display: flex; flex-wrap: wrap; gap: 0.5vw; }
-  .map-card .tpill {
-    background: var(--orange-light);
-    color: var(--orange);
-    font-size: 0.9vw;
-    font-weight: 600;
-    padding: 0.3vw 0.8vw;
-    border-radius: 1vw;
-  }
+  /* Map card */
+  .map-card { background: #fff; border-radius: 1.2vw; padding: 1.4vw; box-shadow: var(--shadow); border-top: 0.35vw solid var(--orange); }
+  .map-card h3 { font-size: 1.15vw; font-weight: 700; margin-bottom: 0.7vw; }
+  .map-card .tpill { display: inline-block; background: var(--orange-light); color: var(--orange); font-size: 0.85vw; font-weight: 600; padding: 0.25vw 0.7vw; border-radius: 1vw; margin: 0.2vw; }
+  .map-card .desc { font-size: 0.9vw; color: var(--secondary); line-height: 1.5; margin-top: 0.6vw; }
 
-  /* Final slide */
-  .slide.final {
-    background: linear-gradient(150deg, #1a1a2e 0%, #222222 100%);
-    color: #ffffff;
-  }
-  .slide.final h2.title { color: #ffffff; }
-  .slide.final .sub { color: rgba(255,255,255,0.7); }
-  .slide.final .tag { background: rgba(242,124,34,0.2); color: var(--orange); border-color: rgba(242,124,34,0.35); }
-
-  /* Profile photo */
-  .profile-photo {
-    width: 6vw;
-    height: 6vw;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 0.3vw solid var(--orange);
-    margin-bottom: 1vw;
-  }
+  /* Profile */
+  .profile-photo { width: 5vw; height: 5vw; border-radius: 50%; object-fit: cover; border: 0.25vw solid var(--orange); }
 
   ::-webkit-scrollbar { display: none; }
 </style>
 </head>
 <body>
 
+
 <!-- ===== 01 表紙 ===== -->
-<section class="slide cover" id="s1">
+<section class="slide cover">
   <span class="snum">01 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">関西学院大学 福祉科 × AI講座 2026</div>
-  <h1 class="cover-title">AIって、<span class="ac">ChatGPT</span>だけじゃない。</h1>
-  <p class="sub">あなたが知らないAIの世界と、自分専属AI部下を持つ時代の話</p>
+  <div class="pane-left">
+    <div class="tag">関西学院大学 福祉科 × AI講座 2026</div>
+    <h1 class="cover-title">AIって、<span class="ac">ChatGPT</span><br>だけじゃない。</h1>
+    <p class="sub">あなたが知らないAIの世界と、<br>自分専属AI部下を持つ時代の話</p>
+  </div>
 
-  <img class="char-img" src="img/moruko_character.png" alt="moruko character">
+  <div class="pane-right" style="background:linear-gradient(135deg,#fff5ec,#fde8d0); align-items:flex-end; padding:0;">
+    <!-- イラスト：スマホを持つ学生とAIアイコン群 -->
+    <svg viewBox="0 0 400 360" width="100%" height="100%" style="position:absolute;inset:0;" preserveAspectRatio="xMidYMid meet">
+      <!-- 背景円 -->
+      <circle cx="280" cy="160" r="130" fill="rgba(242,124,34,0.08)"/>
+      <circle cx="320" cy="80"  r="50"  fill="rgba(242,124,34,0.10)"/>
+      <!-- スマホ -->
+      <rect x="155" y="80" width="90" height="170" rx="12" ry="12" fill="#222" />
+      <rect x="160" y="92" width="80" height="148" rx="8"  ry="8"  fill="#2d8cf0"/>
+      <text x="200" y="165" text-anchor="middle" font-size="32" fill="#fff">🤖</text>
+      <rect x="191" y="244" width="18" height="4" rx="2" fill="#555"/>
+      <!-- チャット泡 -->
+      <rect x="258" y="105" width="88" height="32" rx="10" fill="#fff" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.12))"/>
+      <text x="302" y="126" text-anchor="middle" font-size="13" fill="#222" font-family="sans-serif">✦ Claude</text>
+      <rect x="255" y="152" width="98" height="32" rx="10" fill="#fff" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.12))"/>
+      <text x="304" y="173" text-anchor="middle" font-size="13" fill="#222" font-family="sans-serif">📓 NotebookLM</text>
+      <rect x="258" y="198" width="88" height="32" rx="10" fill="#fff" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.12))"/>
+      <text x="302" y="219" text-anchor="middle" font-size="13" fill="#222" font-family="sans-serif">🕹️ Manus</text>
+      <!-- 学生シルエット -->
+      <ellipse cx="200" cy="290" rx="22" ry="22" fill="#f27c22" opacity="0.9"/>
+      <rect x="182" y="308" width="36" height="40" rx="8" fill="#f27c22" opacity="0.9"/>
+      <!-- 星 -->
+      <text x="120" y="130" font-size="18" fill="#f27c22" opacity="0.6">✦</text>
+      <text x="340" y="270" font-size="14" fill="#f27c22" opacity="0.5">✦</text>
+      <text x="90" y="250" font-size="10" fill="#f27c22" opacity="0.4">✦</text>
+    </svg>
+    <img src="img/moruko_character.png" alt="moruko" style="position:absolute;bottom:0;right:2vw;height:82%;object-fit:contain;">
+  </div>
 </section>
 
 
-<!-- ===== 02 第1部-1 ChatGPT使ってる？ ===== -->
-<section class="slide dark" id="s2">
+<!-- ===== 02 ChatGPT使ってる人？ ===== -->
+<section class="slide dark centered">
   <span class="snum">02 / 18</span>
-  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1)">
+  <img class="logo logo-inv" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第1部｜AIって何使ってる？</div>
-  <div class="bigq" style="color:#fff;">
-    <span class="ac">ChatGPT</span><br>使ってる人？🙋
+  <div class="pane-left" style="align-items:center;">
+    <div class="tag">第1部｜AIって何使ってる？</div>
+    <h2 class="title" style="text-align:center; font-size:3.4vw; color:#fff;">ChatGPT<span class="ac">使ってる人</span>？🙋</h2>
+    <p class="sub" style="text-align:center;">AIに詳しい人・反対の人・よくわからない人……<br>どんな人でも今日は大歓迎！</p>
   </div>
-  <div style="margin-top:3vw; display:flex; gap:3vw; justify-content:center;">
-    <div style="text-align:center;">
-      <div style="font-size:3.5vw;">🤖</div>
-      <div style="font-size:1.2vw; color:rgba(255,255,255,0.65); margin-top:0.5vw; font-weight:500;">AIに詳しい人？</div>
-    </div>
-    <div style="text-align:center;">
-      <div style="font-size:3.5vw;">🤔</div>
-      <div style="font-size:1.2vw; color:rgba(255,255,255,0.65); margin-top:0.5vw; font-weight:500;">AIに反対の人？</div>
-    </div>
-    <div style="text-align:center;">
-      <div style="font-size:3.5vw;">😐</div>
-      <div style="font-size:1.2vw; color:rgba(255,255,255,0.65); margin-top:0.5vw; font-weight:500;">よくわからない人？</div>
-    </div>
+
+  <div class="pane-right dark-panel" style="flex:none;width:100%;">
+    <!-- イラスト：手を挙げる学生シルエット群 -->
+    <svg viewBox="0 0 700 200" width="78%" style="display:block;margin:0 auto;" preserveAspectRatio="xMidYMid meet">
+      <!-- 人物1（手を挙げる） -->
+      <ellipse cx="100" cy="50" rx="20" ry="20" fill="rgba(242,124,34,0.9)"/>
+      <rect x="85" y="70" width="30" height="50" rx="8" fill="rgba(242,124,34,0.9)"/>
+      <line x1="100" y1="75" x2="75" y2="45" stroke="rgba(242,124,34,0.9)" stroke-width="8" stroke-linecap="round"/>
+      <line x1="100" y1="75" x2="125" y2="90" stroke="rgba(242,124,34,0.9)" stroke-width="8" stroke-linecap="round"/>
+      <!-- 人物2（手を挙げる） -->
+      <ellipse cx="200" cy="55" rx="20" ry="20" fill="rgba(255,255,255,0.7)"/>
+      <rect x="185" y="75" width="30" height="50" rx="8" fill="rgba(255,255,255,0.7)"/>
+      <line x1="200" y1="80" x2="178" y2="45" stroke="rgba(255,255,255,0.7)" stroke-width="8" stroke-linecap="round"/>
+      <line x1="200" y1="80" x2="225" y2="90" stroke="rgba(255,255,255,0.7)" stroke-width="8" stroke-linecap="round"/>
+      <!-- 人物3（手を挙げる・やや小さめ・後ろ） -->
+      <ellipse cx="310" cy="60" rx="17" ry="17" fill="rgba(255,255,255,0.45)"/>
+      <rect x="297" y="77" width="26" height="44" rx="7" fill="rgba(255,255,255,0.45)"/>
+      <line x1="310" y1="82" x2="290" y2="50" stroke="rgba(255,255,255,0.45)" stroke-width="7" stroke-linecap="round"/>
+      <!-- 人物4（手を挙げる） -->
+      <ellipse cx="420" cy="50" rx="20" ry="20" fill="rgba(242,124,34,0.75)"/>
+      <rect x="405" y="70" width="30" height="50" rx="8" fill="rgba(242,124,34,0.75)"/>
+      <line x1="420" y1="75" x2="398" y2="40" stroke="rgba(242,124,34,0.75)" stroke-width="8" stroke-linecap="round"/>
+      <line x1="420" y1="75" x2="445" y2="88" stroke="rgba(242,124,34,0.75)" stroke-width="8" stroke-linecap="round"/>
+      <!-- 人物5（手を挙げない・腕下） -->
+      <ellipse cx="530" cy="55" rx="20" ry="20" fill="rgba(255,255,255,0.55)"/>
+      <rect x="515" y="75" width="30" height="50" rx="8" fill="rgba(255,255,255,0.55)"/>
+      <line x1="530" y1="80" x2="510" y2="100" stroke="rgba(255,255,255,0.55)" stroke-width="8" stroke-linecap="round"/>
+      <line x1="530" y1="80" x2="550" y2="100" stroke="rgba(255,255,255,0.55)" stroke-width="8" stroke-linecap="round"/>
+      <!-- 人物6 -->
+      <ellipse cx="630" cy="58" rx="18" ry="18" fill="rgba(242,124,34,0.6)"/>
+      <rect x="617" y="76" width="28" height="46" rx="8" fill="rgba(242,124,34,0.6)"/>
+      <line x1="630" y1="80" x2="610" y2="48" stroke="rgba(242,124,34,0.6)" stroke-width="7" stroke-linecap="round"/>
+      <line x1="630" y1="80" x2="652" y2="95" stroke="rgba(242,124,34,0.6)" stroke-width="7" stroke-linecap="round"/>
+      <!-- 床ライン -->
+      <line x1="40" y1="125" x2="660" y2="125" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 03 第1部-2 QRコード ===== -->
-<section class="slide" id="s3">
+<!-- ===== 03 QRコード ===== -->
+<section class="slide">
   <span class="snum">03 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第1部｜まず触ってみよう</div>
-  <h2 class="title">文科省の資料に<span style="color:var(--orange);">質問</span>してみよう</h2>
-
-  <div style="display:flex; gap:4vw; align-items:center; margin-top:1vw;">
-    <div class="qr-wrap">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://notebooklm.google.com/notebook/f9249f5a-dc75-42ec-a7af-a52eda6f0f3e" alt="QR Code">
+  <div class="pane-left">
+    <div class="tag">第1部｜まず触ってみよう</div>
+    <h2 class="title">文科省の資料に<br><span class="ac">質問</span>してみよう</h2>
+    <div class="hbox">
+      <strong>NotebookLM</strong>（Google製）に<br>
+      文科省のAIガイドラインを<br>
+      読み込んでいます。<br><br>
+      QRを読んで、何でも聞いてみて！
     </div>
-    <div style="text-align:left;">
-      <div style="font-size:1.2vw; color:var(--secondary); font-weight:500; margin-bottom:1vw;">📱 スマホでQRを読み取って</div>
-      <div class="hbox" style="max-width:36vw; font-size:1.3vw;">
-        <strong>NotebookLM</strong> とは？<br>
-        Googleが作ったAI。<br>
-        資料を読み込んで<br>
-        質問に答えてくれる。
+  </div>
+
+  <div class="pane-right orange-panel" style="flex-direction:column; gap:1.5vw;">
+    <!-- イラスト：手でスマホを持ちQR読み取り -->
+    <svg viewBox="0 0 260 240" width="36%" preserveAspectRatio="xMidYMid meet">
+      <!-- 腕・手 -->
+      <path d="M80 220 Q70 190 75 160 Q80 130 100 120 L130 115 Q150 112 155 125 L160 145 Q165 160 150 165 L135 168" stroke="#f27c22" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- 指 -->
+      <path d="M135 168 Q120 175 118 192 Q116 208 128 212 Q142 215 148 200 L155 175" stroke="#f27c22" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <!-- スマホ本体 -->
+      <rect x="130" y="68" width="75" height="130" rx="10" fill="#222"/>
+      <rect x="135" y="76" width="65" height="114" rx="7" fill="#1a1a2e"/>
+      <!-- QRコード簡易 -->
+      <rect x="143" y="84" width="18" height="18" rx="2" fill="#fff"/>
+      <rect x="146" y="87" width="12" height="12" rx="1" fill="#1a1a2e"/>
+      <rect x="148" y="89" width="8" height="8" rx="1" fill="#fff"/>
+      <rect x="167" y="84" width="18" height="18" rx="2" fill="#fff"/>
+      <rect x="170" y="87" width="12" height="12" rx="1" fill="#1a1a2e"/>
+      <rect x="172" y="89" width="8" height="8" rx="1" fill="#fff"/>
+      <rect x="143" y="106" width="18" height="18" rx="2" fill="#fff"/>
+      <rect x="146" y="109" width="12" height="12" rx="1" fill="#1a1a2e"/>
+      <rect x="148" y="111" width="8" height="8" rx="1" fill="#fff"/>
+      <rect x="167" y="106" width="6" height="6" rx="1" fill="#fff"/>
+      <rect x="175" y="106" width="6" height="6" rx="1" fill="#fff"/>
+      <rect x="167" y="114" width="6" height="6" rx="1" fill="#fff"/>
+      <rect x="175" y="114" width="6" height="6" rx="1" fill="#fff"/>
+      <!-- スキャンライン -->
+      <line x1="135" y1="124" x2="200" y2="124" stroke="#f27c22" stroke-width="2" opacity="0.8"/>
+      <rect x="135" y="120" width="65" height="8" rx="2" fill="rgba(242,124,34,0.15)"/>
+      <!-- 画面テキスト -->
+      <text x="167" y="155" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.6)" font-family="sans-serif">NotebookLM</text>
+    </svg>
+    <div class="qr-wrap">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=https://notebooklm.google.com/notebook/f9249f5a-dc75-42ec-a7af-a52eda6f0f3e" alt="QR">
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 04 AIツール一覧 ===== -->
+<section class="slide">
+  <span class="snum">04 / 18</span>
+  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
+
+  <div class="pane-left">
+    <div class="tag">第1部｜今使ったのもAIです</div>
+    <h2 class="title">ChatGPT以外にも<br><span class="ac">AIはたくさん</span>ある</h2>
+    <p class="sub">目的に合ったAIを選ぶことが<br>これからのリテラシー。</p>
+  </div>
+
+  <div class="pane-right subtle-panel">
+    <!-- イラスト：4ツールカードが並ぶ -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2vw;width:78%;padding:2vw 0;">
+      <div style="background:#fff;border-radius:1.2vw;padding:1.8vw;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:0.6vw;">
+        <div style="font-size:3.2vw;">🤖</div>
+        <div style="font-size:1.15vw;font-weight:800;color:var(--near-black);">ChatGPT</div>
+        <div style="font-size:0.85vw;color:var(--secondary);text-align:center;">OpenAI<br>会話・文章生成</div>
+        <div style="background:var(--orange-light);color:var(--orange);font-size:0.75vw;font-weight:700;padding:0.2vw 0.7vw;border-radius:1vw;margin-top:0.3vw;">定番</div>
+      </div>
+      <div style="background:#fff;border-radius:1.2vw;padding:1.8vw;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:0.6vw;">
+        <div style="font-size:3.2vw;">✦</div>
+        <div style="font-size:1.15vw;font-weight:800;color:var(--near-black);">Claude</div>
+        <div style="font-size:0.85vw;color:var(--secondary);text-align:center;">Anthropic<br>長文・分析に強い</div>
+        <div style="background:#ede9fe;color:#7c3aed;font-size:0.75vw;font-weight:700;padding:0.2vw 0.7vw;border-radius:1vw;margin-top:0.3vw;">高精度</div>
+      </div>
+      <div style="background:#fff;border-radius:1.2vw;padding:1.8vw;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:0.6vw;">
+        <div style="font-size:3.2vw;">📓</div>
+        <div style="font-size:1.15vw;font-weight:800;color:var(--near-black);">NotebookLM</div>
+        <div style="font-size:0.85vw;color:var(--secondary);text-align:center;">Google<br>資料を読んで回答</div>
+        <div style="background:#dcfce7;color:#16a34a;font-size:0.75vw;font-weight:700;padding:0.2vw 0.7vw;border-radius:1vw;margin-top:0.3vw;">今使った！</div>
+      </div>
+      <div style="background:#fff;border-radius:1.2vw;padding:1.8vw;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:0.6vw;">
+        <div style="font-size:3.2vw;">🕹️</div>
+        <div style="font-size:1.15vw;font-weight:800;color:var(--near-black);">Manus</div>
+        <div style="font-size:0.85vw;color:var(--secondary);text-align:center;">エージェント型<br>自律的に作業する</div>
+        <div style="background:var(--orange-light);color:var(--orange);font-size:0.75vw;font-weight:700;padding:0.2vw 0.7vw;border-radius:1vw;margin-top:0.3vw;">後ほどデモ</div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ===== 04 第1部-3 AI一覧 ===== -->
-<section class="slide" id="s4">
-  <span class="snum">04 / 18</span>
-  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
-
-  <div class="tag">第1部｜今使ったのもAIです</div>
-  <h2 class="title">ChatGPT以外にもAIはたくさんある</h2>
-
-  <div class="grid4" style="margin-top:1vw;">
-    <div class="tool-badge">
-      <div class="ti">🤖</div>
-      <div class="tn">ChatGPT</div>
-      <div style="font-size:0.85vw; color:var(--secondary); font-weight:400; text-align:center;">Open AI<br>会話・文章生成</div>
-    </div>
-    <div class="tool-badge">
-      <div class="ti">✦</div>
-      <div class="tn">Claude</div>
-      <div style="font-size:0.85vw; color:var(--secondary); font-weight:400; text-align:center;">Anthropic<br>長文・分析に強い</div>
-    </div>
-    <div class="tool-badge">
-      <div class="ti">📓</div>
-      <div class="tn">NotebookLM</div>
-      <div style="font-size:0.85vw; color:var(--secondary); font-weight:400; text-align:center;">Google<br>資料を読んで回答</div>
-    </div>
-    <div class="tool-badge">
-      <div class="ti">🕹️</div>
-      <div class="tn">Manus</div>
-      <div style="font-size:0.85vw; color:var(--secondary); font-weight:400; text-align:center;">エージェント系<br>自律的に作業する</div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ===== 05 第2部-1 AIが世論を動かす ===== -->
-<section class="slide dark" id="s5">
+<!-- ===== 05 認知戦 ===== -->
+<section class="slide dark">
   <span class="snum">05 / 18</span>
-  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1)">
+  <img class="logo logo-inv" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第2部｜AIが「世論」を動かす</div>
-  <h2 class="title">2026年衆院選、<span style="color:var(--orange);">認知戦</span>の時代</h2>
-
-  <div style="display:flex; gap:4vw; align-items:center; margin-top:0.5vw;">
-    <div style="text-align:center;">
+  <div class="pane-left">
+    <div class="tag">第2部｜AIが「世論」を動かす</div>
+    <h2 class="title">2026年衆院選、<br><span class="ac">認知戦</span>の時代へ</h2>
+    <div style="margin-bottom:1.5vw;">
       <div class="stat">1億</div>
-      <div class="stat-label">YouTube広告 再生数</div>
+      <div class="stat-label">YouTube広告 再生数（選挙期間中）</div>
     </div>
-    <div style="width:0.1vw; height:8vw; background:rgba(255,255,255,0.15);"></div>
-    <div class="hbox" style="max-width:48vw;">
-      AIが生成した動画・音声・テキストが<br>
-      選挙期間中に大量拡散。<br>
-      「誰が、何を信じるか」を<br>
-      AIが設計できる時代に。
+    <div class="hbox" style="font-size:1.1vw;">
+      AIが生成した動画・音声・テキストが大量拡散。<br>
+      「誰が、何を信じるか」をAIが設計できる時代。
     </div>
+  </div>
+
+  <div class="pane-right dark-panel">
+    <!-- イラスト：スマホからニュース・動画が溢れ出す -->
+    <svg viewBox="0 0 280 320" width="60%" preserveAspectRatio="xMidYMid meet">
+      <!-- スマホ -->
+      <rect x="95" y="130" width="90" height="165" rx="12" fill="#1a1a1a" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+      <rect x="100" y="140" width="80" height="145" rx="8" fill="#0f0f23"/>
+      <!-- 画面コンテンツ -->
+      <rect x="104" y="144" width="72" height="30" rx="4" fill="rgba(255,50,50,0.8)"/>
+      <text x="140" y="164" text-anchor="middle" font-size="9" fill="#fff" font-family="sans-serif">▶ LIVE</text>
+      <rect x="104" y="178" width="72" height="20" rx="3" fill="rgba(255,255,255,0.1)"/>
+      <rect x="104" y="202" width="72" height="20" rx="3" fill="rgba(255,255,255,0.1)"/>
+      <rect x="104" y="226" width="72" height="20" rx="3" fill="rgba(255,255,255,0.1)"/>
+      <!-- 溢れ出すコンテンツ（上方向） -->
+      <rect x="60" y="88" width="68" height="22" rx="6" fill="rgba(242,124,34,0.85)" transform="rotate(-8 94 99)"/>
+      <text x="94" y="103" text-anchor="middle" font-size="8" fill="#fff" font-family="sans-serif">フェイク動画</text>
+      <rect x="148" y="72" width="76" height="22" rx="6" fill="rgba(255,50,50,0.7)" transform="rotate(6 186 83)"/>
+      <text x="186" y="87" text-anchor="middle" font-size="8" fill="#fff" font-family="sans-serif">衝撃！真実の映像</text>
+      <rect x="30" y="55" width="70" height="22" rx="6" fill="rgba(255,255,255,0.2)" transform="rotate(-12 65 66)"/>
+      <text x="65" y="70" text-anchor="middle" font-size="8" fill="#fff" font-family="sans-serif">AI生成ニュース</text>
+      <rect x="170" y="42" width="80" height="22" rx="6" fill="rgba(242,124,34,0.55)" transform="rotate(10 210 53)"/>
+      <text x="210" y="57" text-anchor="middle" font-size="8" fill="#fff" font-family="sans-serif">拡散！100万いいね</text>
+      <!-- 矢印（溢れ出す感） -->
+      <path d="M140 130 L140 110" stroke="rgba(242,124,34,0.6)" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+      <path d="M120 130 L90 108" stroke="rgba(242,124,34,0.4)" stroke-width="2" stroke-dasharray="4,3"/>
+      <path d="M160 130 L185 105" stroke="rgba(242,124,34,0.4)" stroke-width="2" stroke-dasharray="4,3"/>
+      <!-- ホームボタン -->
+      <circle cx="140" cy="292" r="6" fill="rgba(255,255,255,0.2)"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 06 第2部-2 フェイクを見破る ===== -->
-<section class="slide" id="s6">
+<!-- ===== 06 フェイクを見破る ===== -->
+<section class="slide">
   <span class="snum">06 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第2部｜フェイクを見破るには？</div>
-  <h2 class="title">AI動画の<span style="color:var(--orange);">見分け方</span></h2>
+  <div class="pane-left">
+    <div class="tag">第2部｜フェイクを見破るには？</div>
+    <h2 class="title">AI動画の<span class="ac">見分け方</span></h2>
+    <ul class="blist">
+      <li><span class="dot"></span>顔・唇の動きが不自然にカクつく</li>
+      <li><span class="dot"></span>声と映像のタイミングがズレている</li>
+      <li><span class="dot"></span>光の当たり方・影が不一致</li>
+      <li><span class="dot"></span>感情を煽るタイトル・サムネイル</li>
+    </ul>
+  </div>
 
-  <ul class="blist" style="max-width:65vw;">
-    <li><span class="dot"></span>🔍 <strong>顔・唇の動き</strong>が不自然にカクつく、または滑らかすぎる</li>
-    <li><span class="dot"></span>👂 <strong>声と映像のタイミング</strong>がわずかにズレている</li>
-    <li><span class="dot"></span>💡 <strong>光の当たり方・影</strong>が顔と背景で一致していない</li>
-    <li><span class="dot"></span>🏷️ <strong>感情を煽る</strong>タイトル・サムネイルには要注意</li>
-  </ul>
+  <div class="pane-right orange-panel">
+    <!-- イラスト：虫眼鏡でスマホを調べる -->
+    <svg viewBox="0 0 280 280" width="72%" preserveAspectRatio="xMidYMid meet">
+      <!-- スマホ -->
+      <rect x="90" y="90" width="90" height="155" rx="12" fill="#222"/>
+      <rect x="95" y="100" width="80" height="135" rx="8" fill="#2d5a8e"/>
+      <!-- 動画サムネ -->
+      <rect x="98" y="103" width="74" height="55" rx="4" fill="#1a3a5c"/>
+      <polygon points="130,118 130,148 155,133" fill="rgba(255,255,255,0.9)"/>
+      <rect x="98" y="162" width="74" height="10" rx="3" fill="rgba(255,255,255,0.15)"/>
+      <rect x="98" y="176" width="50" height="10" rx="3" fill="rgba(255,255,255,0.1)"/>
+      <rect x="98" y="195" width="74" height="10" rx="3" fill="rgba(255,255,255,0.15)"/>
+      <rect x="98" y="209" width="40" height="10" rx="3" fill="rgba(255,255,255,0.1)"/>
+      <!-- 虫眼鏡 -->
+      <circle cx="168" cy="140" r="50" fill="none" stroke="#f27c22" stroke-width="8"/>
+      <circle cx="168" cy="140" r="44" fill="rgba(242,124,34,0.1)"/>
+      <line x1="208" y1="180" x2="240" y2="216" stroke="#f27c22" stroke-width="10" stroke-linecap="round"/>
+      <!-- 虫眼鏡内の強調マーク -->
+      <text x="168" y="130" text-anchor="middle" font-size="22" fill="#f27c22">⚠</text>
+      <text x="168" y="158" text-anchor="middle" font-size="11" fill="rgba(242,124,34,0.9)" font-family="sans-serif">FAKE?</text>
+    </svg>
+  </div>
 </section>
 
 
-<!-- ===== 07 第2部-3 ホワイトカラー ===== -->
-<section class="slide" id="s7">
+<!-- ===== 07 ホワイトカラー ===== -->
+<section class="slide">
   <span class="snum">07 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第2部｜ホワイトカラーの仕事が消える？</div>
-  <h2 class="title">PC1台を<span style="color:var(--orange);">AIが丸ごと操作</span>できる時代</h2>
-
-  <div class="grid2" style="max-width:78vw; margin-top:0.5vw;">
-    <div class="card">
+  <div class="pane-left">
+    <div class="tag">第2部｜ホワイトカラーの仕事が消える？</div>
+    <h2 class="title">PC1台を<br><span class="ac">AIが丸ごと操作</span>できる時代</h2>
+    <div class="card" style="margin-bottom:1.2vw;">
       <div class="ci">🤖</div>
       <h3>OpenClaw（ClawnBot）</h3>
       <p>マウス・キーボードを自律的に操作するAIエージェント。メール返信・資料作成・ブラウザ操作を人の代わりに実行。</p>
@@ -446,292 +462,601 @@
     <div class="card">
       <div class="ci">💼</div>
       <h3>影響を受けやすい職種</h3>
-      <p>データ入力・経理事務・コールセンター・翻訳・法律文書の下書き など、定型的なホワイトカラー業務から変化が始まっている。</p>
+      <p>データ入力・経理事務・翻訳・法律文書の下書き……定型的なホワイトカラー業務から変化が始まっている。</p>
     </div>
+  </div>
+
+  <div class="pane-right subtle-panel">
+    <!-- イラスト：ロボットの手がPCを操作 -->
+    <svg viewBox="0 0 300 280" width="72%" preserveAspectRatio="xMidYMid meet">
+      <!-- モニター -->
+      <rect x="50" y="50" width="200" height="135" rx="10" fill="#1a1a2e" stroke="#333" stroke-width="2"/>
+      <rect x="57" y="57" width="186" height="121" rx="7" fill="#0d1117"/>
+      <!-- 画面コンテンツ（ターミナル風） -->
+      <rect x="62" y="62" width="100" height="10" rx="2" fill="rgba(242,124,34,0.7)"/>
+      <rect x="62" y="78" width="140" height="8" rx="2" fill="rgba(255,255,255,0.15)"/>
+      <rect x="62" y="92" width="80" height="8" rx="2" fill="rgba(255,255,255,0.1)"/>
+      <rect x="62" y="106" width="160" height="8" rx="2" fill="rgba(255,255,255,0.15)"/>
+      <rect x="62" y="120" width="60" height="8" rx="2" fill="rgba(242,124,34,0.5)"/>
+      <rect x="62" y="134" width="120" height="8" rx="2" fill="rgba(255,255,255,0.1)"/>
+      <rect x="62" y="148" width="90" height="8" rx="2" fill="rgba(255,255,255,0.15)"/>
+      <!-- スタンド -->
+      <rect x="138" y="185" width="24" height="25" rx="4" fill="#333"/>
+      <rect x="115" y="208" width="70" height="10" rx="5" fill="#444"/>
+      <!-- キーボード -->
+      <rect x="60" y="228" width="180" height="40" rx="8" fill="#2a2a2a"/>
+      <rect x="68" y="234" width="20" height="14" rx="3" fill="#3a3a3a"/>
+      <rect x="92" y="234" width="20" height="14" rx="3" fill="#3a3a3a"/>
+      <rect x="116" y="234" width="20" height="14" rx="3" fill="#3a3a3a"/>
+      <rect x="140" y="234" width="20" height="14" rx="3" fill="#3a3a3a"/>
+      <rect x="164" y="234" width="20" height="14" rx="3" fill="#3a3a3a"/>
+      <rect x="80" y="252" width="140" height="10" rx="3" fill="#3a3a3a"/>
+      <!-- ロボットの腕・手 -->
+      <path d="M200 120 Q230 100 240 130 Q248 155 230 165 L215 168" stroke="#f27c22" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <!-- 指がキーを押す -->
+      <ellipse cx="215" cy="172" rx="12" ry="9" fill="#f27c22" opacity="0.9"/>
+      <text x="215" y="176" text-anchor="middle" font-size="10" fill="#fff" font-family="sans-serif">AI</text>
+      <!-- 光る線 -->
+      <line x1="215" y1="168" x2="164" y2="247" stroke="rgba(242,124,34,0.6)" stroke-width="2" stroke-dasharray="4,3"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 08 第2部-4 ブルーカラーも変わる ===== -->
-<section class="slide" id="s8">
+<!-- ===== 08 ブルーカラー・Unitree G1 ===== -->
+<section class="slide">
   <span class="snum">08 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第2部｜ブルーカラーも変わる</div>
-  <h2 class="title">人型ロボットが<span style="color:var(--orange);">バイト1年分</span>で買える</h2>
+  <div class="pane-left">
+    <div class="tag">第2部｜ブルーカラーも変わる</div>
+    <h2 class="title">人型ロボットが<br><span class="ac">バイト1年分</span>で買える</h2>
+    <div class="stat">$13,500</div>
+    <div class="stat-label" style="margin-bottom:1.5vw;">Unitree G1 スタート価格〜</div>
+    <div class="hbox" style="font-size:1.15vw;">
+      工場・物流・農業での活用が進む。<br>
+      24時間365日、休まず働き続ける。<br>
+      「人手不足」の解決策として世界が注目。
+    </div>
+  </div>
 
-  <div style="display:flex; gap:5vw; align-items:center; margin-top:0.5vw;">
-    <div style="text-align:center;">
-      <div style="font-size:6vw;">🦾</div>
-      <div class="stat">$13,500</div>
-      <div class="stat-label">Unitree G1 スタート価格〜</div>
-    </div>
-    <div class="hbox" style="max-width:48vw;">
-      <strong>Unitree G1</strong>：中国製の人型ロボット。<br>
-      工場・物流・農業での活用が始まっている。<br><br>
-      アルバイト1年分の給与で導入でき、<br>
-      24時間365日働き続ける。<br>
-      「人手不足」の解決策として注目。
-    </div>
+  <div class="pane-right subtle-panel">
+    <!-- イラスト：人型ロボット -->
+    <svg viewBox="0 0 200 340" width="45%" preserveAspectRatio="xMidYMid meet">
+      <!-- 頭部 -->
+      <rect x="70" y="30" width="60" height="55" rx="18" fill="#2a2a3e" stroke="#f27c22" stroke-width="2"/>
+      <circle cx="88" cy="52" r="7" fill="#f27c22" opacity="0.9"/>
+      <circle cx="112" cy="52" r="7" fill="#f27c22" opacity="0.9"/>
+      <rect x="85" y="68" width="30" height="5" rx="2" fill="rgba(255,255,255,0.3)"/>
+      <!-- 首 -->
+      <rect x="91" y="85" width="18" height="18" rx="5" fill="#222"/>
+      <!-- 胴体 -->
+      <rect x="60" y="103" width="80" height="90" rx="14" fill="#2a2a3e" stroke="#444" stroke-width="1.5"/>
+      <!-- 胸パネル -->
+      <rect x="72" y="112" width="56" height="38" rx="8" fill="#1a1a2e"/>
+      <text x="100" y="136" text-anchor="middle" font-size="14" fill="#f27c22">⚡</text>
+      <!-- 腰 -->
+      <rect x="68" y="193" width="64" height="18" rx="8" fill="#333" stroke="#555" stroke-width="1"/>
+      <!-- 左腕 -->
+      <rect x="32" y="108" width="22" height="70" rx="11" fill="#2a2a3e" stroke="#444" stroke-width="1.5"/>
+      <rect x="28" y="178" width="28" height="30" rx="10" fill="#333"/>
+      <!-- 右腕 -->
+      <rect x="146" y="108" width="22" height="70" rx="11" fill="#2a2a3e" stroke="#444" stroke-width="1.5"/>
+      <rect x="144" y="178" width="28" height="30" rx="10" fill="#333"/>
+      <!-- 左脚 -->
+      <rect x="70" y="211" width="26" height="75" rx="13" fill="#2a2a3e" stroke="#444" stroke-width="1.5"/>
+      <rect x="66" y="282" width="30" height="22" rx="10" fill="#333"/>
+      <!-- 右脚 -->
+      <rect x="104" y="211" width="26" height="75" rx="13" fill="#2a2a3e" stroke="#444" stroke-width="1.5"/>
+      <rect x="104" y="282" width="30" height="22" rx="10" fill="#333"/>
+      <!-- 発光ライン -->
+      <line x1="68" y1="130" x2="68" y2="185" stroke="rgba(242,124,34,0.5)" stroke-width="1.5"/>
+      <line x1="132" y1="130" x2="132" y2="185" stroke="rgba(242,124,34,0.5)" stroke-width="1.5"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 09 第2部-5 チャンスでもある ===== -->
-<section class="slide orange-bg" id="s9">
+<!-- ===== 09 チャンスでもある ===== -->
+<section class="slide orange-bg">
   <span class="snum">09 / 18</span>
-  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1); opacity:0.6;">
+  <img class="logo logo-inv" src="img/moruko_logo_wide.png" alt="moruko" style="opacity:0.55;">
 
-  <div class="tag">第2部｜でも、これはチャンスでもある</div>
-  <h2 class="title" style="color:#fff;">自分専属の<span style="opacity:0.85;">「AI部下」</span>を持つ時代</h2>
+  <div class="pane-left">
+    <div class="tag">第2部｜でも、これはチャンスでもある</div>
+    <h2 class="title">自分専属の<br>「<span style="opacity:0.85;">AI部下</span>」を持つ時代</h2>
+    <p class="sub" style="margin-bottom:1.5vw;">プログラミング・デザイン・営業……<br>AIがあなたの分身になる。</p>
+    <ul class="blist" style="max-width:36vw;">
+      <li><span class="dot"></span>24時間働いてくれる</li>
+      <li><span class="dot"></span>指示した通りに動く</li>
+      <li><span class="dot"></span>個人でも企業と戦える</li>
+    </ul>
+  </div>
 
-  <div style="display:flex; gap:3vw; margin-top:1.5vw;">
-    <div style="background:rgba(255,255,255,0.18); border-radius:1.5vw; padding:1.8vw; flex:1; text-align:center;">
-      <div style="font-size:3vw; margin-bottom:0.8vw;">🧑‍💼</div>
-      <div style="font-size:1.1vw; color:#fff; font-weight:600;">以前</div>
-      <div style="font-size:0.95vw; color:rgba(255,255,255,0.75); margin-top:0.4vw;">部下・外注・専門家に頼む<br>→ お金と時間がかかる</div>
-    </div>
-    <div style="display:flex; align-items:center; font-size:2.5vw;">→</div>
-    <div style="background:rgba(255,255,255,0.25); border-radius:1.5vw; padding:1.8vw; flex:1; text-align:center; border:2px solid rgba(255,255,255,0.5);">
-      <div style="font-size:3vw; margin-bottom:0.8vw;">🤖</div>
-      <div style="font-size:1.1vw; color:#fff; font-weight:700;">これから</div>
-      <div style="font-size:0.95vw; color:rgba(255,255,255,0.85); margin-top:0.4vw;">AIが無制限に働いてくれる<br>→ 個人でも会社と戦える</div>
-    </div>
+  <div class="pane-right" style="flex-direction:column; align-items:center; gap:1.5vw;">
+    <!-- イラスト：人間とロボットが並んで働く -->
+    <svg viewBox="0 0 300 240" width="78%" preserveAspectRatio="xMidYMid meet">
+      <!-- 背景デスク -->
+      <rect x="20" y="190" width="260" height="14" rx="7" fill="rgba(255,255,255,0.25)"/>
+      <!-- 人間 -->
+      <ellipse cx="90" cy="60" rx="28" ry="28" fill="rgba(255,255,255,0.9)"/>
+      <rect x="65" y="88" width="50" height="65" rx="12" fill="rgba(255,255,255,0.85)"/>
+      <line x1="90" y1="100" x2="55" y2="135" stroke="rgba(255,255,255,0.85)" stroke-width="10" stroke-linecap="round"/>
+      <line x1="90" y1="100" x2="125" y2="135" stroke="rgba(255,255,255,0.85)" stroke-width="10" stroke-linecap="round"/>
+      <rect x="68" y="152" width="18" height="38" rx="9" fill="rgba(255,255,255,0.85)"/>
+      <rect x="104" y="152" width="18" height="38" rx="9" fill="rgba(255,255,255,0.85)"/>
+      <!-- 人間ラベル -->
+      <rect x="55" y="30" width="70" height="20" rx="6" fill="rgba(255,255,255,0.3)"/>
+      <text x="90" y="44" text-anchor="middle" font-size="10" fill="#fff" font-family="sans-serif">あなた</text>
+      <!-- ロボット（小さめ・隣に立つ） -->
+      <rect x="175" y="72" width="44" height="38" rx="12" fill="rgba(255,255,255,0.7)"/>
+      <circle cx="188" cy="87" r="5" fill="rgba(242,124,34,0.9)"/>
+      <circle cx="206" cy="87" r="5" fill="rgba(242,124,34,0.9)"/>
+      <rect x="182" y="96" width="30" height="6" rx="3" fill="rgba(0,0,0,0.15)"/>
+      <rect x="182" y="110" width="30" height="48" rx="8" fill="rgba(255,255,255,0.65)"/>
+      <rect x="162" y="116" width="14" height="36" rx="7" fill="rgba(255,255,255,0.6)"/>
+      <rect x="218" y="116" width="14" height="36" rx="7" fill="rgba(255,255,255,0.6)"/>
+      <rect x="184" y="158" width="12" height="32" rx="6" fill="rgba(255,255,255,0.6)"/>
+      <rect x="198" y="158" width="12" height="32" rx="6" fill="rgba(255,255,255,0.6)"/>
+      <!-- ロボットラベル -->
+      <rect x="167" y="44" width="60" height="20" rx="6" fill="rgba(255,255,255,0.3)"/>
+      <text x="197" y="58" text-anchor="middle" font-size="10" fill="#fff" font-family="sans-serif">AI部下</text>
+      <!-- ＋記号 -->
+      <text x="152" y="125" text-anchor="middle" font-size="22" fill="rgba(255,255,255,0.8)">+</text>
+      <!-- ハート -->
+      <text x="197" y="35" text-anchor="middle" font-size="14" fill="rgba(255,255,255,0.6)">🤝</text>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 10 第3部-1 バイブコーダー ===== -->
-<section class="slide" id="s10">
+<!-- ===== 10 バイブコーディング ===== -->
+<section class="slide">
   <span class="snum">10 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第3部｜プログラミングを知らなくても作れる</div>
-  <h2 class="title"><span style="color:var(--orange);">バイブコーディング</span>という新しい働き方</h2>
+  <div class="pane-left">
+    <div class="tag">第3部｜プログラミングを知らなくても作れる</div>
+    <h2 class="title"><span class="ac">バイブコーディング</span>という<br>新しい働き方</h2>
+    <div class="grid2">
+      <div class="card">
+        <div class="ci">💬</div>
+        <h3>話すだけで作れる</h3>
+        <p>「こんなアプリが欲しい」と伝えるだけでAIがコードを書いてくれる。プログラミング知識ゼロでOK。</p>
+      </div>
+      <div class="card">
+        <div class="ci">🏢</div>
+        <h3>一人企業の時代</h3>
+        <p>シリコンバレーのスタートアップ<strong>4割が一人企業</strong>化。AIが営業・開発・デザインを肩代わり。</p>
+      </div>
+    </div>
+  </div>
 
-  <div class="grid2" style="max-width:80vw; margin-top:0.5vw;">
-    <div class="card">
-      <div class="ci">💬</div>
-      <h3>バイブコーダーとは？</h3>
-      <p>「こんなアプリを作りたい」と話しかけるだけでAIがコードを書いてくれる。プログラミング知識ゼロでもアプリ・サービスを作れる時代。（伊藤穰一チャンネルも注目）</p>
-    </div>
-    <div class="card">
-      <div class="ci">🏢</div>
-      <h3>シリコンバレーの現実</h3>
-      <p>スタートアップの<strong>4割が一人企業</strong>になりつつある。AIが営業・開発・デザインを肩代わりし、小規模チームが大企業と同等のサービスを作れる。</p>
-    </div>
+  <div class="pane-right subtle-panel">
+    <!-- イラスト：PCの前の人から考えの泡が出ている -->
+    <svg viewBox="0 0 280 300" width="72%" preserveAspectRatio="xMidYMid meet">
+      <!-- 人物 -->
+      <ellipse cx="130" cy="200" rx="28" ry="28" fill="#f27c22" opacity="0.9"/>
+      <text x="130" y="208" text-anchor="middle" font-size="18" fill="#fff">😊</text>
+      <rect x="104" y="228" width="52" height="55" rx="12" fill="#f27c22" opacity="0.85"/>
+      <line x1="130" y1="240" x2="100" y2="268" stroke="#f27c22" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
+      <line x1="130" y1="240" x2="160" y2="268" stroke="#f27c22" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
+      <!-- PC -->
+      <rect x="80" y="140" width="110" height="58" rx="8" fill="#222"/>
+      <rect x="85" y="145" width="100" height="48" rx="6" fill="#1a1a2e"/>
+      <!-- コード的なテキスト -->
+      <rect x="90" y="150" width="60" height="6" rx="2" fill="rgba(242,124,34,0.8)"/>
+      <rect x="90" y="162" width="85" height="6" rx="2" fill="rgba(255,255,255,0.2)"/>
+      <rect x="90" y="174" width="45" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
+      <rect x="90" y="186" width="70" height="6" rx="2" fill="rgba(242,124,34,0.5)"/>
+      <!-- スタンド -->
+      <rect x="125" y="198" width="10" height="12" rx="3" fill="#333"/>
+      <!-- アイデア泡 -->
+      <circle cx="200" cy="130" r="38" fill="#fff" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.12))"/>
+      <text x="200" y="138" text-anchor="middle" font-size="22">💡</text>
+      <circle cx="175" cy="168" r="8" fill="#fff" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.1))"/>
+      <circle cx="163" cy="182" r="5" fill="#fff" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.1))"/>
+      <!-- 小さな泡2 -->
+      <circle cx="60" cy="110" r="28" fill="#fff5ec" filter="drop-shadow(0 3px 8px rgba(0,0,0,0.08))"/>
+      <text x="60" y="118" text-anchor="middle" font-size="16">🚀</text>
+      <circle cx="82" cy="148" r="7" fill="#fff5ec"/>
+      <circle cx="93" cy="163" r="4" fill="#fff5ec"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 11 第3部-2 北さんの事例 ===== -->
-<section class="slide" id="s11">
+<!-- ===== 11 北さんの事例 ===== -->
+<section class="slide">
   <span class="snum">11 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第3部｜実際に作ったものたち</div>
-  <h2 class="title">プログラミング歴<span style="color:var(--orange);">ゼロ</span>でも作れた</h2>
+  <div class="pane-left">
+    <div class="tag">第3部｜実際に作ったものたち</div>
+    <h2 class="title">プログラミング歴<span class="ac">ゼロ</span>でも作れた</h2>
+    <ul class="blist">
+      <li><span class="dot"></span>💳 JPYC決済システムを実装</li>
+      <li><span class="dot"></span>📦 クラウドファンディングサイトを制作</li>
+      <li><span class="dot"></span>🤖 AI秘書「moruko」をミニPCで自宅運用</li>
+      <li><span class="dot"></span>📊 講座・LP・資料作成もAIが9割担当</li>
+    </ul>
+  </div>
 
-  <div style="display:flex; gap:4vw; align-items:center; margin-top:0.5vw;">
-    <div style="text-align:center;">
-      <img src="img/kita_profile.jpg" alt="北さん" class="profile-photo">
-      <div style="font-size:1.1vw; font-weight:700; color:var(--near-black);">北 典史</div>
-      <div style="font-size:0.9vw; color:var(--secondary);">Mi-LAI Lab 代表</div>
-    </div>
-    <div>
-      <ul class="blist">
-        <li><span class="dot"></span>💳 <strong>JPYC決済システム</strong>をAIと一緒に実装</li>
-        <li><span class="dot"></span>📦 <strong>クラウドファンディング</strong>サイトを個人で制作</li>
-        <li><span class="dot"></span>🤖 <strong>moruko（AI秘書）</strong>をミニPCで自宅運用</li>
-        <li><span class="dot"></span>📊 講座・LP・資料作成もAIが9割担当</li>
-      </ul>
-    </div>
+  <div class="pane-right subtle-panel" style="flex-direction:column; gap:2vw; align-items:center;">
+    <!-- 0→1 大テキスト -->
+    <div style="font-size:6.5vw; font-weight:900; color:var(--orange); letter-spacing:-0.04em; line-height:1; text-shadow: 0 4px 20px rgba(242,124,34,0.3);">0→1</div>
+    <!-- プロフ写真 + スマホ決済 SVG -->
+    <svg viewBox="0 0 240 160" width="70%" preserveAspectRatio="xMidYMid meet">
+      <!-- スマホ決済 -->
+      <rect x="140" y="20" width="75" height="125" rx="10" fill="#222"/>
+      <rect x="145" y="28" width="65" height="109" rx="7" fill="#1a3a5c"/>
+      <!-- 決済画面 -->
+      <rect x="149" y="35" width="57" height="30" rx="4" fill="#f27c22" opacity="0.9"/>
+      <text x="177" y="55" text-anchor="middle" font-size="9" fill="#fff" font-family="sans-serif">¥ 決済完了</text>
+      <text x="177" y="75" text-anchor="middle" font-size="20">✓</text>
+      <rect x="149" y="88" width="57" height="12" rx="3" fill="rgba(255,255,255,0.15)"/>
+      <rect x="149" y="104" width="40" height="12" rx="3" fill="rgba(255,255,255,0.1)"/>
+      <circle cx="177" cy="143" r="5" fill="rgba(255,255,255,0.2)"/>
+      <!-- プロフ写真 -->
+      <clipPath id="pc"><circle cx="75" cy="80" r="55"/></clipPath>
+      <circle cx="75" cy="80" r="57" fill="rgba(242,124,34,0.2)" stroke="#f27c22" stroke-width="3"/>
+      <image href="img/kita_profile.jpg" x="20" y="25" width="110" height="110" clip-path="url(#pc)" preserveAspectRatio="xMidYMid slice"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 12 第3部-3 AIツールマップ ===== -->
-<section class="slide" id="s12">
+<!-- ===== 12 AIツールマップ ===== -->
+<section class="slide">
   <span class="snum">12 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第3部｜AIツールマップ</div>
-  <h2 class="title">用途別に整理する<span style="color:var(--orange);">AIツール</span></h2>
+  <div class="pane-left" style="flex:0 0 40%; padding-right:2vw;">
+    <div class="tag">第3部｜AIツールマップ</div>
+    <h2 class="title" style="font-size:2.6vw;">用途別に整理する<br><span class="ac">AIツール</span></h2>
+    <p class="sub">目的に合ったAIを選ぶ力が<br>これからのリテラシー。</p>
+  </div>
 
-  <div class="grid3" style="margin-top:0.5vw;">
-    <div class="map-card">
-      <h3>💬 会話・文章生成</h3>
-      <div class="tools">
-        <span class="tpill">ChatGPT</span>
-        <span class="tpill">Claude</span>
-        <span class="tpill">Gemini</span>
-        <span class="tpill">Grok</span>
+  <div class="pane-right subtle-panel" style="padding:2vw;">
+    <div style="display:grid;grid-template-columns:1fr;gap:1.1vw;width:90%;">
+      <div class="map-card">
+        <h3>💬 会話・文章生成系</h3>
+        <div><span class="tpill">ChatGPT</span><span class="tpill">Claude</span><span class="tpill">Gemini</span><span class="tpill">Grok</span></div>
+        <div class="desc">質問・アイデア出し・文章下書き・翻訳など日常業務に直結</div>
       </div>
-      <p style="font-size:0.95vw; color:var(--secondary); margin-top:0.8vw; line-height:1.6;">質問・アイデア出し・文章の下書き・翻訳など日常業務に直結</p>
-    </div>
-    <div class="map-card">
-      <h3>🕹️ エージェント系</h3>
-      <div class="tools">
-        <span class="tpill">Manus</span>
-        <span class="tpill">moruko</span>
-        <span class="tpill">Devin</span>
-        <span class="tpill">OpenClaw</span>
+      <div class="map-card">
+        <h3>🕹️ エージェント系（自律型）</h3>
+        <div><span class="tpill">Manus</span><span class="tpill">moruko</span><span class="tpill">Devin</span><span class="tpill">OpenClaw</span></div>
+        <div class="desc">自律的にPCを操作・メール返信・コード実行まで自動化</div>
       </div>
-      <p style="font-size:0.95vw; color:var(--secondary); margin-top:0.8vw; line-height:1.6;">自律的にPCを操作、メール返信・リサーチ・コード実行まで自動化</p>
-    </div>
-    <div class="map-card">
-      <h3>📚 学習補助系</h3>
-      <div class="tools">
-        <span class="tpill">NotebookLM</span>
-        <span class="tpill">Perplexity</span>
-        <span class="tpill">Khan AI</span>
+      <div class="map-card">
+        <h3>📚 学習補助系</h3>
+        <div><span class="tpill">NotebookLM</span><span class="tpill">Perplexity</span><span class="tpill">Khan AI</span></div>
+        <div class="desc">資料要約・論文解説・対話しながら学べる</div>
       </div>
-      <p style="font-size:0.95vw; color:var(--secondary); margin-top:0.8vw; line-height:1.6;">資料要約・論文解説・わからないことを対話しながら学べる</p>
     </div>
   </div>
 </section>
 
 
-<!-- ===== 13 第4部-1 Manusデモ ===== -->
-<section class="slide dark" id="s13">
+<!-- ===== 13 Manusデモ ===== -->
+<section class="slide dark centered">
   <span class="snum">13 / 18</span>
-  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1)">
+  <img class="logo logo-inv" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第4部｜やってみよう</div>
-  <div class="bigq" style="color:#fff; font-size:3.5vw; margin-bottom:2vw;">
-    今日ここで、あなたの<br>
-    <span class="ac">ホームページが生まれます。</span>
+  <div class="pane-left" style="flex:none; width:50%; padding:2vw 3vw; align-items:flex-start; text-align:left;">
+    <div class="tag">第4部｜やってみよう</div>
+    <h2 class="title" style="color:#fff; font-size:3vw;">今日ここで、あなたの<br><span class="ac">HPが生まれます。</span></h2>
+    <div style="display:flex; align-items:center; gap:1.5vw; margin-top:1vw;">
+      <div style="background:rgba(255,255,255,0.07);border-radius:1.2vw;padding:1.2vw 2vw;text-align:center;">
+        <div style="font-size:2.5vw;">🕹️</div>
+        <div style="font-size:1vw;color:#fff;font-weight:700;">Manus</div>
+      </div>
+      <div style="color:var(--orange);font-size:2vw;">→</div>
+      <div style="background:rgba(242,124,34,0.15);border:1.5px solid rgba(242,124,34,0.4);border-radius:1.2vw;padding:1.2vw 2vw;text-align:center;">
+        <div style="font-size:2.5vw;">🌐</div>
+        <div style="font-size:1vw;color:#fff;font-weight:700;">あなたのHP</div>
+      </div>
+    </div>
   </div>
-  <div style="display:flex; gap:2vw; justify-content:center;">
-    <div style="background:rgba(255,255,255,0.07); border-radius:1.5vw; padding:1.2vw 2.5vw; text-align:center;">
-      <div style="font-size:2vw;">🕹️</div>
-      <div style="font-size:1.1vw; color:#fff; font-weight:600; margin-top:0.4vw;">Manus</div>
-      <div style="font-size:0.9vw; color:rgba(255,255,255,0.6);">AIエージェント</div>
-    </div>
-    <div style="display:flex; align-items:center; color:var(--orange); font-size:2vw;">→</div>
-    <div style="background:rgba(242,124,34,0.15); border-radius:1.5vw; padding:1.2vw 2.5vw; text-align:center; border:1.5px solid rgba(242,124,34,0.4);">
-      <div style="font-size:2vw;">🌐</div>
-      <div style="font-size:1.1vw; color:#fff; font-weight:600; margin-top:0.4vw;">あなたのHP</div>
-      <div style="font-size:0.9vw; color:rgba(255,255,255,0.6);">数分で完成</div>
-    </div>
+
+  <div class="pane-right dark-panel" style="flex:none;width:50%;">
+    <!-- イラスト：Webページが画面から飛び出す -->
+    <svg viewBox="0 0 280 280" width="72%" preserveAspectRatio="xMidYMid meet">
+      <!-- モニター -->
+      <rect x="40" y="100" width="200" height="140" rx="12" fill="#1a1a1a" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+      <rect x="48" y="108" width="184" height="124" rx="8" fill="#0d1117"/>
+      <!-- ブラウザ上部 -->
+      <rect x="48" y="108" width="184" height="22" rx="8 8 0 0" fill="#161b22"/>
+      <circle cx="62" cy="119" r="4" fill="#ff5f56"/>
+      <circle cx="76" cy="119" r="4" fill="#ffbd2e"/>
+      <circle cx="90" cy="119" r="4" fill="#27c93f"/>
+      <rect x="108" y="113" width="100" height="12" rx="6" fill="#222"/>
+      <!-- スタンド -->
+      <rect x="130" y="240" width="20" height="18" rx="4" fill="#333"/>
+      <rect x="110" y="256" width="60" height="8" rx="4" fill="#444"/>
+      <!-- Webページコンテンツ -->
+      <rect x="55" y="136" width="170" height="30" rx="4" fill="rgba(242,124,34,0.7)"/>
+      <text x="140" y="156" text-anchor="middle" font-size="10" fill="#fff" font-family="sans-serif">あなたのホームページ</text>
+      <rect x="55" y="172" width="80" height="10" rx="3" fill="rgba(255,255,255,0.15)"/>
+      <rect x="55" y="186" width="120" height="10" rx="3" fill="rgba(255,255,255,0.1)"/>
+      <rect x="55" y="200" width="95" height="10" rx="3" fill="rgba(255,255,255,0.15)"/>
+      <!-- 飛び出す要素 -->
+      <g transform="translate(160,90) rotate(-15)">
+        <rect width="80" height="55" rx="8" fill="#fff" filter="drop-shadow(0 8px 24px rgba(242,124,34,0.5))"/>
+        <rect x="5" y="5" width="70" height="16" rx="3" fill="rgba(242,124,34,0.8)"/>
+        <rect x="5" y="26" width="50" height="7" rx="2" fill="#eee"/>
+        <rect x="5" y="37" width="60" height="7" rx="2" fill="#f2f2f2"/>
+        <rect x="5" y="44" width="35" height="7" rx="2" fill="#f2f2f2"/>
+      </g>
+      <!-- 矢印 -->
+      <path d="M180 145 L195 100" stroke="rgba(242,124,34,0.6)" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arr2)"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 14 第5部-1 AIは思った以上できない ===== -->
-<section class="slide" id="s14">
+<!-- ===== 14 AIは思った以上できない ===== -->
+<section class="slide">
   <span class="snum">14 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第5部｜AIを使いこなすために</div>
-  <h2 class="title">AIは<span style="color:var(--orange);">「思った以上」</span>はできない</h2>
-
-  <div class="hbox" style="max-width:70vw; font-size:1.55vw; margin-bottom:2vw;">
-    🚗 <strong>車のたとえ</strong>：車は運転者のイメージする道しか走れない。<br>
-    AIも同じ。<strong>あなたのイメージ＝AIアウトプットの天井。</strong><br>
-    「なんとなく良いやつ作って」では良いものはできない。
+  <div class="pane-left">
+    <div class="tag">第5部｜AIを使いこなすために</div>
+    <h2 class="title">AIは<span class="ac">「思った以上」</span><br>はできない</h2>
+    <div class="hbox" style="margin-bottom:1.5vw;">
+      🚗 <strong>車のたとえ</strong><br>
+      車は運転者のイメージする道しか走れない。<br>
+      AIも同じ。あなたのイメージ＝アウトプットの天井。
+    </div>
+    <div style="display:flex; gap:1vw; align-items:center;">
+      <div class="card" style="text-align:center; flex:1;">
+        <div class="ci">🤔</div>
+        <h3>曖昧な指示</h3>
+        <p>「いい感じにして」<br>→ 平均的な出力</p>
+      </div>
+      <div style="font-size:2vw; color:var(--orange);">→</div>
+      <div class="card" style="text-align:center; flex:1; border:1.5px solid var(--orange);">
+        <div class="ci">🎯</div>
+        <h3 style="color:var(--orange);">具体的な指示</h3>
+        <p>目的・読者・トーンを<br>明確に → 高品質</p>
+      </div>
+    </div>
   </div>
-  <div style="display:flex; gap:2vw;">
-    <div class="card" style="text-align:center; min-width:18vw;">
-      <div class="ci">🤔</div>
-      <h3>曖昧な指示</h3>
-      <p>「いい感じにして」<br>→ 平均的な出力</p>
-    </div>
-    <div style="display:flex; align-items:center; font-size:2.5vw; color:var(--orange);">→</div>
-    <div class="card" style="text-align:center; min-width:18vw; border:1.5px solid var(--orange);">
-      <div class="ci">🎯</div>
-      <h3 style="color:var(--orange);">具体的な指示</h3>
-      <p>目的・読者・トーンを<br>明確に伝える → 高品質</p>
-    </div>
+
+  <div class="pane-right subtle-panel">
+    <!-- イラスト：頭のイメージがPCに出力される -->
+    <svg viewBox="0 0 280 260" width="75%" preserveAspectRatio="xMidYMid meet">
+      <!-- 人物の頭 -->
+      <ellipse cx="80" cy="80" rx="55" ry="55" fill="#f27c22" opacity="0.15"/>
+      <ellipse cx="80" cy="80" rx="45" ry="45" fill="#f27c22" opacity="0.2"/>
+      <ellipse cx="80" cy="78" rx="32" ry="32" fill="#222"/>
+      <text x="80" y="86" text-anchor="middle" font-size="24" fill="#f27c22">🧠</text>
+      <!-- 人体 -->
+      <rect x="62" y="110" width="36" height="50" rx="10" fill="#333" opacity="0.8"/>
+      <!-- 矢印（頭→PC） -->
+      <path d="M130 78 Q200 50 210 100" stroke="rgba(242,124,34,0.7)" stroke-width="3" fill="none" stroke-dasharray="6,4" marker-end="url(#arr3)"/>
+      <defs>
+        <marker id="arr3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 Z" fill="rgba(242,124,34,0.7)"/>
+        </marker>
+      </defs>
+      <!-- 脳内イメージ（小泡） -->
+      <circle cx="55" cy="55" r="12" fill="#fff5ec"/>
+      <text x="55" y="60" text-anchor="middle" font-size="10">💡</text>
+      <circle cx="105" cy="50" r="12" fill="#fff5ec"/>
+      <text x="105" y="55" text-anchor="middle" font-size="10">🚀</text>
+      <!-- PC -->
+      <rect x="180" y="95" width="90" height="65" rx="8" fill="#222"/>
+      <rect x="186" y="101" width="78" height="53" rx="5" fill="#1a1a2e"/>
+      <rect x="190" y="105" width="70" height="14" rx="3" fill="rgba(242,124,34,0.8)"/>
+      <rect x="190" y="124" width="50" height="8" rx="2" fill="rgba(255,255,255,0.2)"/>
+      <rect x="190" y="136" width="62" height="8" rx="2" fill="rgba(255,255,255,0.15)"/>
+      <rect x="218" y="160" width="12" height="14" rx="3" fill="#333"/>
+      <rect x="205" y="172" width="38" height="7" rx="3" fill="#444"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 15 第5部-2 福祉の思想がAIを変える ===== -->
-<section class="slide" id="s15">
+<!-- ===== 15 福祉の思想 ===== -->
+<section class="slide">
   <span class="snum">15 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第5部｜福祉の思想がAIを変える</div>
-  <h2 class="title">同じAIでも<span style="color:var(--orange);">「誰が・何のために」</span>で変わる</h2>
-
-  <div class="grid2" style="max-width:78vw; margin-top:0.5vw;">
-    <div class="card" style="border-top:0.4vw solid #e53e3e;">
-      <div class="ci">⚔️</div>
-      <h3 style="color:#e53e3e;">破壊的利用</h3>
-      <p>軍事・監視・フェイクニュース・詐欺メール自動生成……<br>AIは「悪意」も増幅する。</p>
-    </div>
-    <div class="card" style="border-top:0.4vw solid var(--orange);">
-      <div class="ci">🕊️</div>
-      <h3 style="color:var(--orange);">建設的利用</h3>
-      <p>仏教研究・障がい者支援・高齢者の孤立防止・医療診断補助……<br>福祉の視点がAIを変える。</p>
+  <div class="pane-left">
+    <div class="tag">第5部｜福祉の思想がAIを変える</div>
+    <h2 class="title">同じAIでも<br><span class="ac">「誰が・何のために」</span>で変わる</h2>
+    <div class="grid2">
+      <div class="card" style="border-top:0.35vw solid #e53e3e;">
+        <div class="ci">⚔️</div>
+        <h3 style="color:#e53e3e;">破壊的利用</h3>
+        <p>軍事・監視・フェイクニュース・詐欺……AIは「悪意」も増幅する。</p>
+      </div>
+      <div class="card" style="border-top:0.35vw solid var(--orange);">
+        <div class="ci">🕊️</div>
+        <h3 style="color:var(--orange);">建設的利用</h3>
+        <p>障がい者支援・医療診断・仏教研究……福祉の視点がAIを変える。</p>
+      </div>
     </div>
   </div>
 
-  <div class="hbox" style="max-width:70vw; margin-top:2vw; font-size:1.3vw;">
-    💡 AIは道具。使う人の思想・倫理観がアウトプットの質と方向性を決める。
+  <div class="pane-right orange-panel">
+    <!-- イラスト：天秤にAIが乗り、左右に平和/破壊 -->
+    <svg viewBox="0 0 280 280" width="72%" preserveAspectRatio="xMidYMid meet">
+      <!-- 天秤の柱 -->
+      <rect x="136" y="130" width="8" height="100" rx="4" fill="#888"/>
+      <rect x="110" y="226" width="60" height="10" rx="5" fill="#777"/>
+      <!-- 天秤の梁 -->
+      <line x1="50" y1="130" x2="230" y2="130" stroke="#888" stroke-width="5" stroke-linecap="round"/>
+      <!-- 吊り紐左 -->
+      <line x1="80" y1="130" x2="60" y2="175" stroke="#999" stroke-width="2.5"/>
+      <line x1="80" y1="130" x2="100" y2="175" stroke="#999" stroke-width="2.5"/>
+      <!-- 吊り紐右 -->
+      <line x1="200" y1="130" x2="180" y2="165" stroke="#999" stroke-width="2.5"/>
+      <line x1="200" y1="130" x2="220" y2="165" stroke="#999" stroke-width="2.5"/>
+      <!-- 左皿（重い・下がっている） -->
+      <ellipse cx="80" cy="185" rx="42" ry="12" fill="#e53e3e" opacity="0.8"/>
+      <text x="80" y="182" text-anchor="middle" font-size="22">⚔️</text>
+      <text x="80" y="200" text-anchor="middle" font-size="9" fill="#e53e3e" font-family="sans-serif">破壊・監視</text>
+      <!-- 右皿（軽い・上がっている） -->
+      <ellipse cx="200" cy="172" rx="42" ry="12" fill="rgba(242,124,34,0.7)"/>
+      <text x="200" y="169" text-anchor="middle" font-size="22">🕊️</text>
+      <text x="200" y="187" text-anchor="middle" font-size="9" fill="#f27c22" font-family="sans-serif">福祉・支援</text>
+      <!-- 中心のAIアイコン -->
+      <circle cx="140" cy="108" r="22" fill="#fff" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+      <text x="140" y="116" text-anchor="middle" font-size="20">🤖</text>
+      <!-- 梁の支点 -->
+      <circle cx="140" cy="130" r="8" fill="#777"/>
+    </svg>
   </div>
 </section>
 
 
-<!-- ===== 16 第5部-3 文科省 ===== -->
-<section class="slide" id="s16">
+<!-- ===== 16 文科省 ===== -->
+<section class="slide">
   <span class="snum">16 / 18</span>
   <img class="logo" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第5部｜文科省はこう言っている</div>
-  <h2 class="title">「大学・高専における生成AIの<span style="color:var(--orange);">教学面の取扱い</span>について」</h2>
+  <div class="pane-left">
+    <div class="tag">第5部｜文科省はこう言っている</div>
+    <h2 class="title" style="font-size:2.5vw;">「大学・高専における<br>生成AIの<span class="ac">教学面の取扱い</span>について」</h2>
+    <ul class="blist">
+      <li><span class="dot"></span>一律禁止ではなく<strong>適切な活用を推進</strong></li>
+      <li><span class="dot"></span>思考・創造を損なう使用は禁止</li>
+      <li><span class="dot"></span>各大学が<strong>ポリシー策定</strong>を行い明示</li>
+      <li><span class="dot"></span>AIリテラシー教育の<strong>充実を推奨</strong></li>
+    </ul>
+  </div>
 
-  <ul class="blist" style="max-width:68vw;">
-    <li><span class="dot"></span>📄 生成AIの利用を<strong>一律禁止するのではなく</strong>、適切な活用を推進</li>
-    <li><span class="dot"></span>🎓 <strong>学習の本質</strong>（思考・創造・批判的思考）を損なう使用は禁止</li>
-    <li><span class="dot"></span>🏫 各大学が<strong>ポリシー策定</strong>を行い、学生に明示することを求める</li>
-    <li><span class="dot"></span>🌐 AIリテラシーを高める<strong>教育機会の充実</strong>を推奨</li>
-  </ul>
+  <div class="pane-right subtle-panel">
+    <!-- イラスト：公式文書・ガイドライン -->
+    <svg viewBox="0 0 240 280" width="60%" preserveAspectRatio="xMidYMid meet">
+      <!-- 文書の影 -->
+      <rect x="58" y="35" width="150" height="200" rx="8" fill="rgba(0,0,0,0.06)"/>
+      <!-- 文書 本体 -->
+      <rect x="50" y="28" width="150" height="200" rx="8" fill="#fff" stroke="#ddd" stroke-width="1.5"/>
+      <!-- 折り角 -->
+      <path d="M170 28 L200 58 L170 58 Z" fill="#eee"/>
+      <path d="M170 28 L200 58" stroke="#ddd" stroke-width="1.5"/>
+      <!-- 文科省ロゴ的なバッジ -->
+      <rect x="65" y="42" width="90" height="28" rx="6" fill="#1a3a8f"/>
+      <text x="110" y="61" text-anchor="middle" font-size="10" fill="#fff" font-family="sans-serif">文部科学省</text>
+      <!-- タイトル行 -->
+      <rect x="65" y="80" width="120" height="8" rx="2" fill="#333"/>
+      <rect x="65" y="94" width="100" height="8" rx="2" fill="#555"/>
+      <rect x="65" y="108" width="110" height="8" rx="2" fill="#555"/>
+      <!-- 区切り線 -->
+      <line x1="65" y1="125" x2="185" y2="125" stroke="#eee" stroke-width="1.5"/>
+      <!-- 本文行 -->
+      <rect x="65" y="135" width="120" height="6" rx="2" fill="#ccc"/>
+      <rect x="65" y="147" width="90" height="6" rx="2" fill="#ddd"/>
+      <rect x="65" y="159" width="110" height="6" rx="2" fill="#ccc"/>
+      <rect x="65" y="171" width="80" height="6" rx="2" fill="#ddd"/>
+      <rect x="65" y="183" width="100" height="6" rx="2" fill="#ccc"/>
+      <rect x="65" y="195" width="85" height="6" rx="2" fill="#ddd"/>
+      <!-- チェックマーク -->
+      <circle cx="175" cy="175" r="22" fill="rgba(242,124,34,0.15)" stroke="#f27c22" stroke-width="2"/>
+      <text x="175" y="182" text-anchor="middle" font-size="18" fill="#f27c22">✓</text>
+    </svg>
+  </div>
 </section>
 
 
-<!-- ===== 17 第6部-1 ディスカッション ===== -->
-<section class="slide dark" id="s17">
+<!-- ===== 17 ディスカッション ===== -->
+<section class="slide dark centered">
   <span class="snum">17 / 18</span>
-  <img class="logo" src="img/moruko_logo_wide.png" alt="moruko" style="filter:brightness(0) invert(1)">
+  <img class="logo logo-inv" src="img/moruko_logo_wide.png" alt="moruko">
 
-  <div class="tag">第6部｜ディスカッション</div>
-  <div class="bigq" style="color:#fff; font-size:4.5vw; line-height:1.5;">
-    AIは社会を<br>
-    <span class="ac">良くする</span>か？
+  <div class="pane-left" style="align-items:center;">
+    <div class="tag">第6部｜ディスカッション</div>
+    <h2 class="title" style="color:#fff; font-size:4vw; text-align:center; margin-bottom:1vw;">
+      AIは社会を<br><span class="ac">良くする</span>か？
+    </h2>
   </div>
-  <div style="display:flex; gap:2vw; margin-top:3vw; justify-content:center;">
-    <div style="background:rgba(255,255,255,0.07); border-radius:1vw; padding:0.8vw 1.8vw; font-size:1.1vw; color:rgba(255,255,255,0.7);">💬 あなたはどう思う？</div>
-    <div style="background:rgba(255,255,255,0.07); border-radius:1vw; padding:0.8vw 1.8vw; font-size:1.1vw; color:rgba(255,255,255,0.7);">💬 誰が決めるべき？</div>
-    <div style="background:rgba(255,255,255,0.07); border-radius:1vw; padding:0.8vw 1.8vw; font-size:1.1vw; color:rgba(255,255,255,0.7);">💬 自分にできることは？</div>
+
+  <div class="pane-right dark-panel" style="flex:none; width:100%;">
+    <!-- イラスト：吹き出しが飛び交う -->
+    <svg viewBox="0 0 700 160" width="80%" style="display:block;margin:0 auto;" preserveAspectRatio="xMidYMid meet">
+      <!-- 吹き出し1 -->
+      <rect x="20" y="20" width="160" height="60" rx="14" fill="rgba(242,124,34,0.85)"/>
+      <polygon points="50,80 40,108 80,80" fill="rgba(242,124,34,0.85)"/>
+      <text x="100" y="55" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">AIは仕事を</text>
+      <text x="100" y="70" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">奪うと思う？</text>
+      <!-- 吹き出し2 -->
+      <rect x="230" y="10" width="190" height="60" rx="14" fill="rgba(255,255,255,0.12)"/>
+      <polygon points="310,70 300,100 350,70" fill="rgba(255,255,255,0.12)"/>
+      <text x="325" y="45" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">福祉にAIをどう</text>
+      <text x="325" y="60" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">活かせる？</text>
+      <!-- 吹き出し3 -->
+      <rect x="480" y="20" width="200" height="60" rx="14" fill="rgba(242,124,34,0.6)"/>
+      <polygon points="540,80 530,110 570,80" fill="rgba(242,124,34,0.6)"/>
+      <text x="580" y="55" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">誰がAIのルールを</text>
+      <text x="580" y="70" text-anchor="middle" font-size="12" fill="#fff" font-family="sans-serif">決めるべき？</text>
+      <!-- 人物シルエット3つ -->
+      <ellipse cx="65" cy="138" rx="16" ry="16" fill="rgba(242,124,34,0.7)"/>
+      <rect x="52" y="154" width="26" height="6" rx="3" fill="rgba(242,124,34,0.7)"/>
+      <ellipse cx="325" cy="138" rx="16" ry="16" fill="rgba(255,255,255,0.4)"/>
+      <rect x="312" y="154" width="26" height="6" rx="3" fill="rgba(255,255,255,0.4)"/>
+      <ellipse cx="570" cy="138" rx="16" ry="16" fill="rgba(242,124,34,0.5)"/>
+      <rect x="557" y="154" width="26" height="6" rx="3" fill="rgba(242,124,34,0.5)"/>
+    </svg>
   </div>
 </section>
 
 
 <!-- ===== 18 最終スライド ===== -->
-<section class="slide final" id="s18">
+<section class="slide final-bg">
   <span class="snum">18 / 18</span>
 
-  <div class="tag">まとめ</div>
-  <h2 class="title" style="font-size:3.8vw; letter-spacing:-0.02em;">
-    AIを使う人の<span style="color:var(--orange);">思想</span>が、<br>
-    社会をつくる。
-  </h2>
-  <p class="sub" style="margin-top:2vw; color:rgba(255,255,255,0.6);">
-    今日学んだこと、明日からの行動に。
-  </p>
-
-  <div style="display:flex; gap:3vw; margin-top:3vw; align-items:center;">
-    <img src="img/moruko_character.png" alt="moruko" style="height:14vw; object-fit:contain; filter:drop-shadow(0 4px 16px rgba(242,124,34,0.4));">
-    <div style="text-align:left;">
-      <img src="img/moruko_logo_wide.png" alt="moruko" style="height:3.5vw; filter:brightness(0) invert(1); opacity:0.9; margin-bottom:1vw; display:block;">
-      <div style="font-size:1.1vw; color:rgba(255,255,255,0.6); line-height:2;">
-        北 典史 / Mi-LAI Lab<br>
-        Instagram: @seizogakuen<br>
-        Telegram: @moruko_bot
+  <div class="pane-left">
+    <div class="tag">まとめ</div>
+    <h2 class="title" style="font-size:3.5vw; letter-spacing:-0.02em;">
+      AIを使う人の<span class="ac">思想</span>が、<br>社会をつくる。
+    </h2>
+    <p class="sub" style="margin-bottom:2vw;">今日学んだこと、明日からの行動に。</p>
+    <div style="display:flex; align-items:center; gap:1.5vw; margin-top:1vw;">
+      <img src="img/kita_profile.jpg" class="profile-photo" alt="北さん">
+      <div>
+        <div style="font-size:1.2vw; font-weight:700; color:#fff;">北 典史 / Mi-LAI Lab</div>
+        <div style="font-size:0.95vw; color:rgba(255,255,255,0.55); line-height:1.9;">
+          Instagram: @seizogakuen<br>
+          AI秘書: moruko（Telegram）
+        </div>
       </div>
     </div>
+    <img src="img/moruko_logo_wide.png" alt="moruko" style="height:2.8vw; filter:brightness(0) invert(1); opacity:0.6; margin-top:2vw;">
+  </div>
+
+  <div class="pane-right" style="align-items:flex-end; padding:0;">
+    <!-- イラスト：地球を手のひらに乗せる -->
+    <svg viewBox="0 0 300 340" width="100%" height="100%" style="position:absolute;inset:0;" preserveAspectRatio="xMidYMid meet">
+      <!-- 背景グロー -->
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="rgba(242,124,34,0.18)"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <circle cx="200" cy="160" r="130" fill="url(#glow)"/>
+      <!-- 地球 -->
+      <circle cx="195" cy="130" r="65" fill="#1a3a8f" opacity="0.95"/>
+      <ellipse cx="185" cy="120" rx="22" ry="30" fill="rgba(255,255,255,0.15)" transform="rotate(-20 185 120)"/>
+      <ellipse cx="215" cy="145" rx="18" ry="22" fill="rgba(255,255,255,0.12)" transform="rotate(15 215 145)"/>
+      <ellipse cx="175" cy="155" rx="14" ry="10" fill="rgba(255,255,255,0.1)"/>
+      <!-- 地球の光 -->
+      <circle cx="172" cy="108" r="18" fill="rgba(255,255,255,0.07)"/>
+      <!-- 両手 -->
+      <path d="M130 215 Q115 200 112 185 Q108 165 125 162 L160 160 Q175 160 176 175 L177 195" stroke="#f27c22" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M260 215 Q275 200 278 185 Q282 165 265 162 L232 160 Q217 160 216 175 L215 195" stroke="#f27c22" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- 指 -->
+      <ellipse cx="148" cy="200" rx="14" ry="9" fill="#f27c22" transform="rotate(-10 148 200)"/>
+      <ellipse cx="246" cy="200" rx="14" ry="9" fill="#f27c22" transform="rotate(10 246 200)"/>
+      <!-- 星々 -->
+      <text x="85" y="80"  font-size="12" fill="rgba(242,124,34,0.5)">✦</text>
+      <text x="270" y="70" font-size="9"  fill="rgba(242,124,34,0.4)">✦</text>
+      <text x="60" y="180" font-size="7"  fill="rgba(255,255,255,0.3)">✦</text>
+      <text x="290" y="200" font-size="10" fill="rgba(242,124,34,0.35)">✦</text>
+    </svg>
+    <img src="img/moruko_character.png" alt="moruko" style="position:absolute;bottom:0;right:2vw;height:70%;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(242,124,34,0.3));">
   </div>
 </section>
 
